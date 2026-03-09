@@ -1,5 +1,7 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import SectionHeader from "./SectionHeader";
+import { GridDots } from "./TechPattern";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const faqs = [
   { q: "What AI services does AI SmartSyS offer?", a: "We offer AI development, chatbot building, data analytics, automation solutions, web and mobile app development powered by artificial intelligence." },
@@ -9,24 +11,37 @@ const faqs = [
   { q: "How do you ensure data security?", a: "We implement enterprise-grade encryption, secure APIs, and follow industry best practices for data protection and privacy compliance." },
 ];
 
-const FAQSection = () => (
-  <section id="faq" className="section-padding bg-background">
-    <div className="container mx-auto max-w-3xl">
-      <SectionHeader badge="FAQ" title="Frequently Asked Questions" description="Find answers to common questions about our AI services." />
-      <Accordion type="single" collapsible className="space-y-3">
-        {faqs.map((f, i) => (
-          <AccordionItem key={i} value={`faq-${i}`} className="rounded-xl border border-border bg-card px-6 shadow-card">
-            <AccordionTrigger className="font-heading font-medium text-foreground text-left hover:no-underline">
-              {f.q}
-            </AccordionTrigger>
-            <AccordionContent className="text-muted-foreground leading-relaxed">
-              {f.a}
-            </AccordionContent>
-          </AccordionItem>
-        ))}
-      </Accordion>
-    </div>
-  </section>
-);
+const FAQSection = () => {
+  const { ref, isVisible } = useScrollReveal();
+
+  return (
+    <section id="faq" className="relative section-padding bg-background overflow-hidden">
+      <GridDots className="top-0 right-0 text-foreground" />
+
+      <div className="container mx-auto max-w-3xl relative z-10" ref={ref}>
+        <SectionHeader badge="FAQ" title="Frequently Asked Questions" description="Find answers to common questions about our AI services." />
+        <Accordion type="single" collapsible className="space-y-4">
+          {faqs.map((f, i) => (
+            <AccordionItem
+              key={i}
+              value={`faq-${i}`}
+              className={`rounded-xl border border-border bg-card px-6 shadow-card transition-all duration-500 ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              }`}
+              style={{ transitionDelay: isVisible ? `${i * 80}ms` : "0ms" }}
+            >
+              <AccordionTrigger className="font-heading font-medium text-foreground text-left hover:no-underline py-5">
+                {f.q}
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground leading-relaxed pb-5">
+                {f.a}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </div>
+    </section>
+  );
+};
 
 export default FAQSection;

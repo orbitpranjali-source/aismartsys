@@ -1,34 +1,54 @@
-import { Star } from "lucide-react";
+import { Star, Quote } from "lucide-react";
 import SectionHeader from "./SectionHeader";
+import { GlowOrb } from "./TechPattern";
+import { useStaggerReveal } from "@/hooks/useScrollReveal";
 
 const testimonials = [
-  { name: "Priya Sharma", role: "CEO, TechVentures", text: "AI SmartSyS transformed our operations with their automation solutions. Highly recommended!" },
-  { name: "Rajesh Kumar", role: "CTO, DataFlow Inc.", text: "The AI chatbot they built increased our customer satisfaction by 60%. Exceptional work." },
-  { name: "Anita Desai", role: "Founder, GreenLeaf", text: "Professional, innovative, and always ahead of the curve. A truly reliable AI partner." },
+  { name: "Priya Sharma", role: "CEO, TechVentures", text: "AI SmartSyS transformed our operations with their automation solutions. Highly recommended!", initials: "PS" },
+  { name: "Rajesh Kumar", role: "CTO, DataFlow Inc.", text: "The AI chatbot they built increased our customer satisfaction by 60%. Exceptional work.", initials: "RK" },
+  { name: "Anita Desai", role: "Founder, GreenLeaf", text: "Professional, innovative, and always ahead of the curve. A truly reliable AI partner.", initials: "AD" },
 ];
 
-const TestimonialsSection = () => (
-  <section className="section-padding bg-muted/40">
-    <div className="container mx-auto">
-      <SectionHeader badge="Testimonials" title="What Our Clients Say" />
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {testimonials.map((t, i) => (
-          <div key={t.name} className="p-6 rounded-2xl bg-card border border-border shadow-card hover-lift animate-fade-in-up" style={{ animationDelay: `${i * 0.1}s` }}>
-            <div className="flex gap-1 mb-4">
-              {[...Array(5)].map((_, j) => (
-                <Star key={j} size={16} className="fill-accent text-accent" />
-              ))}
+const TestimonialsSection = () => {
+  const { ref, isVisible, getDelay } = useStaggerReveal(testimonials.length, 120);
+
+  return (
+    <section className="relative section-padding bg-muted/40 overflow-hidden">
+      <GlowOrb className="w-64 h-64 top-0 right-0" color="accent" />
+
+      <div className="container mx-auto relative z-10" ref={ref}>
+        <SectionHeader badge="Testimonials" title="What Our Clients Say" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {testimonials.map((t, i) => (
+            <div
+              key={t.name}
+              className={`relative p-8 rounded-2xl bg-card border border-border shadow-card hover-lift transition-all duration-500 ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              }`}
+              style={getDelay(i)}
+            >
+              <Quote size={32} className="text-primary/10 absolute top-6 right-6" />
+              <div className="flex gap-1 mb-5">
+                {[...Array(5)].map((_, j) => (
+                  <Star key={j} size={16} className="fill-accent text-accent" />
+                ))}
+              </div>
+              <p className="text-muted-foreground text-sm leading-relaxed mb-6 italic">"{t.text}"</p>
+              <div className="flex items-center gap-3">
+                <div className="w-11 h-11 rounded-full bg-primary/10 text-primary flex items-center justify-center font-heading font-bold text-sm">
+                  {t.initials}
+                </div>
+                <div>
+                  <p className="font-heading font-semibold text-foreground text-sm">{t.name}</p>
+                  <p className="text-muted-foreground text-xs">{t.role}</p>
+                </div>
+              </div>
             </div>
-            <p className="text-muted-foreground text-sm leading-relaxed mb-4 italic">"{t.text}"</p>
-            <div>
-              <p className="font-heading font-semibold text-foreground text-sm">{t.name}</p>
-              <p className="text-muted-foreground text-xs">{t.role}</p>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 export default TestimonialsSection;

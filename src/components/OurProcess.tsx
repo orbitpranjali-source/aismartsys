@@ -1,5 +1,6 @@
 import { Search, Lightbulb, Code, Rocket } from "lucide-react";
 import SectionHeader from "./SectionHeader";
+import { useStaggerReveal } from "@/hooks/useScrollReveal";
 
 const steps = [
   { icon: Search, title: "Discovery", desc: "We analyze your needs and define project scope." },
@@ -8,28 +9,42 @@ const steps = [
   { icon: Rocket, title: "Launch", desc: "Deploy, monitor, and continuously optimize." },
 ];
 
-const OurProcess = () => (
-  <section className="section-padding bg-muted/40">
-    <div className="container mx-auto">
-      <SectionHeader badge="Our Process" title="How We Work" description="A streamlined approach from concept to deployment." />
-      <div className="relative">
-        {/* Connection line */}
-        <div className="hidden lg:block absolute top-12 left-[12%] right-[12%] h-0.5 bg-border" />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {steps.map((s, i) => (
-            <div key={s.title} className="relative text-center animate-fade-in-up" style={{ animationDelay: `${i * 0.15}s` }}>
-              <div className="relative z-10 w-24 h-24 mx-auto rounded-full bg-card border-2 border-primary/30 flex items-center justify-center text-primary mb-4 shadow-card">
-                <s.icon size={32} />
+const OurProcess = () => {
+  const { ref, isVisible, getDelay } = useStaggerReveal(steps.length, 150);
+
+  return (
+    <section className="relative section-padding bg-muted/40 overflow-hidden">
+      <div className="container mx-auto relative z-10" ref={ref}>
+        <SectionHeader badge="Our Process" title="How We Work" description="A streamlined approach from concept to deployment." />
+        <div className="relative">
+          {/* Connection line */}
+          <div className="hidden lg:block absolute top-14 left-[12%] right-[12%] h-px">
+            <div className={`h-full bg-gradient-to-r from-transparent via-primary/30 to-transparent transition-all duration-1000 ${isVisible ? 'scale-x-100' : 'scale-x-0'}`} />
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+            {steps.map((s, i) => (
+              <div
+                key={s.title}
+                className={`relative text-center transition-all duration-600 ${
+                  isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                }`}
+                style={getDelay(i)}
+              >
+                <div className="relative z-10 w-28 h-28 mx-auto rounded-full bg-card border-2 border-primary/20 flex items-center justify-center text-primary mb-5 shadow-card group hover:border-primary/50 hover:shadow-card-hover transition-all duration-300">
+                  <s.icon size={32} className="transition-transform duration-300 group-hover:scale-110" />
+                  <span className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-accent text-accent-foreground text-xs font-bold flex items-center justify-center shadow-md">
+                    {i + 1}
+                  </span>
+                </div>
+                <h3 className="font-heading font-semibold text-foreground mt-2 mb-2 text-lg">{s.title}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed max-w-[200px] mx-auto">{s.desc}</p>
               </div>
-              <span className="text-xs font-semibold text-accent uppercase tracking-wider">Step {i + 1}</span>
-              <h3 className="font-heading font-semibold text-foreground mt-1 mb-2">{s.title}</h3>
-              <p className="text-muted-foreground text-sm">{s.desc}</p>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 export default OurProcess;
