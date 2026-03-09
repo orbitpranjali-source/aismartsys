@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Phone, Mail, Send, MapPin } from "lucide-react";
+import { Phone, Mail, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
