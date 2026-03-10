@@ -22,7 +22,7 @@ const FAQSection = () => {
             <AccordionItem
               key={i}
               value={`faq-${i}`}
-              className={`rounded-xl glass-card px-6 transition-all duration-500 ${
+              className={`rounded-2xl premium-card px-6 transition-all duration-500 ${
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}
               style={{ transitionDelay: isVisible ? `${i * 80}ms` : "0ms" }}

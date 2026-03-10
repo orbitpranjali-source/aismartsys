@@ -18,8 +18,11 @@ const ServicesSection = () => {
 
   return (
     <section id="services" className="relative section-padding overflow-hidden">
-      <GlowOrb className="w-80 h-80 -top-40 -right-40" color="primary" />
-      <GlowOrb className="w-64 h-64 bottom-0 left-0" color="secondary" />
+      <GlowOrb className="w-[500px] h-[500px] -top-60 -right-60" color="primary" />
+      <GlowOrb className="w-[400px] h-[400px] bottom-0 -left-40" color="secondary" />
+
+      {/* Separator line */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
 
       <div className="container mx-auto relative z-10" ref={ref}>
         <SectionHeader badge="Our Services" title="What We Offer" description="Empowering businesses with intelligent solutions across AI, web, and mobile." />
@@ -27,13 +30,13 @@ const ServicesSection = () => {
           {services.map((s, i) => (
             <div
               key={s.title}
-              className={`group p-8 glass-card cursor-pointer transition-all duration-500 ${
+              className={`group p-8 premium-card cursor-pointer transition-all duration-500 ${
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
               style={getDelay(i)}
             >
               <AnimatedIcon><s.icon size={24} /></AnimatedIcon>
-              <h3 className="font-heading font-semibold text-lg text-foreground mt-5 mb-3">{s.title}</h3>
+              <h3 className="font-heading font-semibold text-lg text-foreground mt-6 mb-3">{s.title}</h3>
               <p className="text-muted-foreground text-sm leading-relaxed">{s.desc}</p>
             </div>
           ))}

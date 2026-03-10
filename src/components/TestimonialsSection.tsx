@@ -14,8 +14,8 @@ const TestimonialsSection = () => {
 
   return (
     <section className="relative section-padding overflow-hidden">
-      <div className="absolute inset-0 bg-muted/30" />
-      <GlowOrb className="w-64 h-64 top-0 right-0" color="accent" />
+      <div className="absolute inset-0 bg-muted/20" />
+      <GlowOrb className="w-[400px] h-[400px] top-0 -right-40" color="accent" />
 
       <div className="container mx-auto relative z-10" ref={ref}>
         <SectionHeader badge="Testimonials" title="What Our Clients Say" />
@@ -23,12 +23,12 @@ const TestimonialsSection = () => {
           {testimonials.map((t, i) => (
             <div
               key={t.name}
-              className={`relative p-8 glass-card transition-all duration-500 ${
+              className={`relative p-8 premium-card transition-all duration-500 ${
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
               style={getDelay(i)}
             >
-              <Quote size={32} className="text-primary/15 absolute top-6 right-6" />
+              <Quote size={32} className="text-primary/10 absolute top-6 right-6" />
               <div className="flex gap-1 mb-5">
                 {[...Array(5)].map((_, j) => (
                   <Star key={j} size={16} className="fill-accent text-accent" />

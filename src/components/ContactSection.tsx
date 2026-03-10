@@ -20,8 +20,8 @@ const ContactSection = () => {
 
   return (
     <section id="contact" className="relative section-padding overflow-hidden">
-      <div className="absolute inset-0 bg-muted/30" />
-      <GlowOrb className="w-72 h-72 bottom-0 right-0" color="primary" />
+      <div className="absolute inset-0 bg-muted/20" />
+      <GlowOrb className="w-[400px] h-[400px] bottom-0 -right-40" color="primary" />
 
       <div className="container mx-auto relative z-10" ref={ref}>
         <SectionHeader badge="Contact Us" title="Get In Touch" description="Ready to transform your business with AI? Let's talk." />
@@ -29,14 +29,14 @@ const ContactSection = () => {
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         }`}>
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-5 p-8 md:p-10 glass-card">
+          <form onSubmit={handleSubmit} className="space-y-5 p-8 md:p-10 premium-card">
             <h3 className="font-heading font-semibold text-foreground text-lg mb-2">Send us a message</h3>
             <Input
               placeholder="Your Name"
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
               required
-              className="bg-muted/50 border-border h-12 text-foreground placeholder:text-muted-foreground"
+              className="bg-muted/30 border-border/50 h-12 text-foreground placeholder:text-muted-foreground rounded-xl focus:border-primary/40 transition-colors"
             />
             <Input
               type="email"
@@ -44,13 +44,13 @@ const ContactSection = () => {
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
               required
-              className="bg-muted/50 border-border h-12 text-foreground placeholder:text-muted-foreground"
+              className="bg-muted/30 border-border/50 h-12 text-foreground placeholder:text-muted-foreground rounded-xl focus:border-primary/40 transition-colors"
             />
             <Input
               placeholder="Phone Number"
               value={form.phone}
               onChange={(e) => setForm({ ...form, phone: e.target.value })}
-              className="bg-muted/50 border-border h-12 text-foreground placeholder:text-muted-foreground"
+              className="bg-muted/30 border-border/50 h-12 text-foreground placeholder:text-muted-foreground rounded-xl focus:border-primary/40 transition-colors"
             />
             <Textarea
               placeholder="Your Message"
@@ -58,7 +58,7 @@ const ContactSection = () => {
               onChange={(e) => setForm({ ...form, message: e.target.value })}
               required
               rows={5}
-              className="bg-muted/50 border-border resize-none text-foreground placeholder:text-muted-foreground"
+              className="bg-muted/30 border-border/50 resize-none text-foreground placeholder:text-muted-foreground rounded-xl focus:border-primary/40 transition-colors"
             />
             <Button type="submit" className="w-full rounded-xl" size="lg">
               <Send size={16} className="mr-2" /> Send Message
@@ -79,11 +79,11 @@ const ContactSection = () => {
                 { icon: Mail, label: "Email", value: "vijaytiwari@orbitengineerings.com", href: "mailto:vijaytiwari@orbitengineerings.com" },
               ].map(({ icon: Icon, label, value, href }) => (
                 <a key={label} href={href} className="flex items-center gap-4 text-muted-foreground hover:text-foreground transition-colors group">
-                  <div className="w-14 h-14 rounded-2xl glass flex items-center justify-center text-primary group-hover:bg-gradient-button group-hover:text-secondary-foreground transition-all duration-300">
+                  <div className="w-14 h-14 rounded-2xl glass flex items-center justify-center text-primary group-hover:bg-gradient-button group-hover:text-secondary-foreground transition-all duration-500">
                     <Icon size={22} />
                   </div>
                   <div>
-                    <p className="text-xs text-muted-foreground uppercase tracking-wider font-medium">{label}</p>
+                    <p className="text-xs text-muted-foreground uppercase tracking-widest font-medium">{label}</p>
                     <p className="font-medium text-foreground text-sm">{value}</p>
                   </div>
                 </a>
@@ -91,7 +91,7 @@ const ContactSection = () => {
             </div>
 
             {/* Stats row */}
-            <div className="grid grid-cols-3 gap-4 pt-6 border-t border-border">
+            <div className="grid grid-cols-3 gap-4 pt-8 border-t border-border">
               {[
                 { num: "100+", label: "Clients" },
                 { num: "250+", label: "Projects" },
@@ -99,7 +99,7 @@ const ContactSection = () => {
               ].map(s => (
                 <div key={s.label} className="text-center">
                   <p className="font-heading font-bold text-2xl text-gradient-primary">{s.num}</p>
-                  <p className="text-muted-foreground text-xs">{s.label}</p>
+                  <p className="text-muted-foreground text-xs mt-1">{s.label}</p>
                 </div>
               ))}
             </div>
