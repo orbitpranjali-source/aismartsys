@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import ServicesSection from "@/components/ServicesSection";
@@ -10,20 +11,42 @@ import FAQSection from "@/components/FAQSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 
-const Index = () => (
-  <div className="min-h-screen">
-    <Navbar />
-    <HeroSection />
-    <ServicesSection />
-    <ProductsSection />
-    <WhyChooseUs />
-    <OurProcess />
-    <PortfolioSection />
-    <TestimonialsSection />
-    <FAQSection />
-    <ContactSection />
-    <Footer />
-  </div>
-);
+const Index = () => {
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px"
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("active");
+        }
+      });
+    }, observerOptions);
+
+    const revealElements = document.querySelectorAll(".reveal-on-scroll");
+    revealElements.forEach((el) => observer.observe(el));
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div className="min-h-screen">
+      <Navbar />
+      <div className="reveal-on-scroll"><HeroSection /></div>
+      <div className="reveal-on-scroll"><ServicesSection /></div>
+      <div className="reveal-on-scroll"><ProductsSection /></div>
+      <div className="reveal-on-scroll"><WhyChooseUs /></div>
+      <div className="reveal-on-scroll"><OurProcess /></div>
+      <div className="reveal-on-scroll"><PortfolioSection /></div>
+      <div className="reveal-on-scroll"><TestimonialsSection /></div>
+      <div className="reveal-on-scroll"><FAQSection /></div>
+      <div className="reveal-on-scroll"><ContactSection /></div>
+      <Footer />
+    </div>
+  );
+};
 
 export default Index;

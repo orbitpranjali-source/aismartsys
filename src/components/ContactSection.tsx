@@ -20,14 +20,20 @@ const ContactSection = () => {
 
   return (
     <section id="contact" className="relative section-padding overflow-hidden">
-      <div className="absolute inset-0 bg-muted/20" />
+      {/* Background Video */}
+      <div className="video-container opacity-20">
+        <video autoPlay muted loop playsInline>
+          <source src="https://assets.mixkit.co/videos/preview/mixkit-digital-data-visualization-concept-animation-24706-large.mp4" type="video/mp4" />
+        </video>
+      </div>
+
+      <div className="absolute inset-0 bg-background/40 backdrop-blur-[2px]" />
       <GlowOrb className="w-[400px] h-[400px] bottom-0 -right-40" color="primary" />
 
       <div className="container mx-auto relative z-10" ref={ref}>
         <SectionHeader badge="Contact Us" title="Get In Touch" description="Ready to transform your business with AI? Let's talk." />
-        <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-5xl mx-auto transition-all duration-700 ${
-          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-        }`}>
+        <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-5xl mx-auto transition-all duration-700 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}>
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-5 p-8 md:p-10 premium-card">
             <h3 className="font-heading font-semibold text-foreground text-lg mb-2">Send us a message</h3>

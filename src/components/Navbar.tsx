@@ -1,27 +1,33 @@
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Layout, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import orbitLogo from "@/assets/orbit-logo.png";
+import aiLogo from "@/assets/ai-logo.jpg";
+import { useAuth } from "@/context/AuthContext";
+import { useNavigate, Link } from "react-router-dom";
+import AuthModal from "./AuthModal";
 
 const navLinks = [
-  { label: "Home", href: "#home" },
-  { label: "Services", href: "#services" },
-  { label: "Products", href: "#products" },
-  { label: "Portfolio", href: "#portfolio" },
-  { label: "FAQ", href: "#faq" },
-  { label: "Contact", href: "#contact" },
+  { label: "Home", href: "/#home" },
+  { label: "Services", href: "/#services" },
+  { label: "Products", href: "/#products" },
+  { label: "Portfolio", href: "/#portfolio" },
+  { label: "FAQ", href: "/#faq" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("#home");
   const [scrolled, setScrolled] = useState(false);
+  const { isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate();
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
 
-      const sections = navLinks.map((l) => l.href.slice(1));
+      const sections = navLinks.map((l) => l.href.split("#")[1]);
       let current = "home";
       for (const id of sections) {
         const el = document.getElementById(id);
@@ -36,21 +42,28 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const handleAuthAction = () => {
+    if (isAuthenticated) {
+      navigate("/dashboard");
+    } else {
+      setIsAuthModalOpen(true);
+    }
+  };
+
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "bg-background/80 backdrop-blur-xl border-b border-border shadow-lg shadow-background/20"
-          : "bg-transparent"
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled
+        ? "bg-background/80 backdrop-blur-xl border-b border-border shadow-lg shadow-background/20"
+        : "bg-transparent"
+        }`}
     >
-      <div className="container mx-auto flex items-center justify-between h-16 px-4">
-        <a href="#home" className="flex items-center gap-2.5 group">
-          <img src={orbitLogo} alt="AI SmartSyS Logo" className="h-8 w-8 transition-transform duration-300 group-hover:scale-110" />
-          <span className="font-heading text-lg font-bold text-foreground">
+      <div className="container mx-auto flex items-center justify-between h-20 px-4">
+        <Link to="/" className="flex items-center gap-3 group">
+          <img src={aiLogo} alt="AI SmartSyS Logo" className="h-10 w-10 transition-transform duration-300 group-hover:scale-110 object-contain rounded-md" />
+          <span className="font-heading text-xl font-bold text-foreground">
             AI <span className="text-gradient-primary">SmartSyS</span>
           </span>
-        </a>
+        </Link>
 
         {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-1 p-1 rounded-full bg-muted/40 backdrop-blur-sm border border-border/50">
@@ -58,20 +71,32 @@ const Navbar = () => {
             <a
               key={link.href}
               href={link.href}
-              className={`relative px-4 py-2 text-sm font-medium rounded-full transition-all duration-300 ${
-                activeSection === link.href
-                  ? "bg-gradient-nav-pill text-secondary-foreground shadow-md shadow-primary/25 scale-[1.02]"
-                  : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
-              }`}
+              className={`relative px-4 py-2 text-sm font-medium rounded-full transition-all duration-300 ${activeSection === link.href.split("/")[1]
+                ? "bg-gradient-nav-pill text-secondary-foreground shadow-md shadow-primary/25 scale-[1.02]"
+                : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
+                }`}
             >
               {link.label}
             </a>
           ))}
         </div>
 
-        <Button size="sm" className="hidden md:inline-flex rounded-full px-6 bg-gradient-nav-pill text-secondary-foreground shadow-md shadow-primary/20 hover:shadow-primary/40 hover:scale-105 transition-all duration-300">
-          Get Started
-        </Button>
+        <div className="hidden md:flex items-center gap-3">
+          {isAuthenticated ? (
+            <>
+              <Button size="sm" onClick={() => navigate("/dashboard")} className="rounded-full px-6 bg-muted/50 text-foreground hover:bg-muted border border-white/5 transition-all duration-300">
+                <Layout size={16} className="mr-2" /> Dashboard
+              </Button>
+              <Button size="icon" variant="ghost" onClick={logout} className="rounded-full hover:bg-red-500/10 hover:text-red-400">
+                <LogOut size={18} />
+              </Button>
+            </>
+          ) : (
+            <Button size="sm" onClick={handleAuthAction} className="rounded-full px-6 bg-gradient-nav-pill text-secondary-foreground shadow-md shadow-primary/20 hover:shadow-primary/40 hover:scale-105 transition-all duration-300">
+              Get Started
+            </Button>
+          )}
+        </div>
 
         {/* Mobile toggle */}
         <button className="md:hidden text-foreground p-2 rounded-lg hover:bg-muted/50 transition-colors" onClick={() => setIsOpen(!isOpen)}>
@@ -88,21 +113,39 @@ const Navbar = () => {
                 key={link.href}
                 href={link.href}
                 onClick={() => setIsOpen(false)}
-                className={`px-4 py-3 text-sm font-medium rounded-xl transition-all duration-300 ${
-                  activeSection === link.href
-                    ? "bg-gradient-nav-pill text-secondary-foreground shadow-md"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                }`}
+                className={`px-4 py-3 text-sm font-medium rounded-xl transition-all duration-300 ${activeSection === link.href.split("/")[1]
+                  ? "bg-gradient-nav-pill text-secondary-foreground shadow-md"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                  }`}
               >
                 {link.label}
               </a>
             ))}
-            <Button size="sm" className="w-fit rounded-full px-6 mt-3 bg-gradient-nav-pill text-secondary-foreground">
-              Get Started
-            </Button>
+            <div className="pt-4 border-t border-white/5 mt-2 flex flex-col gap-2">
+              {isAuthenticated ? (
+                <>
+                  <Button size="sm" onClick={() => { setIsOpen(false); navigate("/dashboard"); }} className="w-full rounded-xl bg-muted/50">
+                    Dashboard
+                  </Button>
+                  <Button size="sm" onClick={() => { setIsOpen(false); logout(); }} variant="ghost" className="w-full rounded-xl text-red-400">
+                    Logout
+                  </Button>
+                </>
+              ) : (
+                <Button size="sm" onClick={handleAuthAction} className="w-full rounded-xl bg-gradient-primary">
+                  Get Started
+                </Button>
+              )}
+            </div>
           </div>
         </div>
       )}
+
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        onSuccess={() => navigate("/dashboard")}
+      />
     </nav>
   );
 };

@@ -14,7 +14,13 @@ const OurProcess = () => {
 
   return (
     <section className="relative section-padding overflow-hidden">
-      <div className="absolute inset-0 bg-muted/20" />
+      {/* Background Video */}
+      <div className="video-container opacity-10">
+        <video autoPlay muted loop playsInline>
+          <source src="https://assets.mixkit.co/videos/preview/mixkit-top-view-of-a-circuit-board-with-moving-lights-24705-large.mp4" type="video/mp4" />
+        </video>
+      </div>
+      <div className="absolute inset-0 bg-background/50 backdrop-blur-[1px]" />
       <div className="container mx-auto relative z-10" ref={ref}>
         <SectionHeader badge="Our Process" title="How We Work" description="A streamlined approach from concept to deployment." />
         <div className="relative">
@@ -26,9 +32,8 @@ const OurProcess = () => {
             {steps.map((s, i) => (
               <div
                 key={s.title}
-                className={`relative text-center transition-all duration-600 ${
-                  isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-                }`}
+                className={`relative text-center transition-all duration-600 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                  }`}
                 style={getDelay(i)}
               >
                 <div className="relative z-10 w-28 h-28 mx-auto rounded-full premium-card flex items-center justify-center text-primary mb-6 group">

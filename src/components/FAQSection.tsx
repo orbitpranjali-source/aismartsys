@@ -15,6 +15,13 @@ const FAQSection = () => {
 
   return (
     <section id="faq" className="relative section-padding overflow-hidden">
+      {/* Background Video */}
+      <div className="video-container opacity-5">
+        <video autoPlay muted loop playsInline>
+          <source src="https://assets.mixkit.co/videos/preview/mixkit-background-of-a-digital-circuit-board-looping-24709-large.mp4" type="video/mp4" />
+        </video>
+      </div>
+      <div className="absolute inset-0 bg-background/80 backdrop-blur-[2px]" />
       <div className="container mx-auto max-w-3xl relative z-10" ref={ref}>
         <SectionHeader badge="FAQ" title="Frequently Asked Questions" description="Find answers to common questions about our AI services." />
         <Accordion type="single" collapsible className="space-y-4">
@@ -22,15 +29,19 @@ const FAQSection = () => {
             <AccordionItem
               key={i}
               value={`faq-${i}`}
-              className={`rounded-2xl premium-card px-6 transition-all duration-500 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-              }`}
-              style={{ transitionDelay: isVisible ? `${i * 80}ms` : "0ms" }}
+              className={`rounded-2xl premium-card px-8 mb-4 border border-white/5 transition-all duration-500 hover:border-accent/20 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+                }`}
+              style={{ transitionDelay: isVisible ? `${i * 100}ms` : "0ms" }}
             >
-              <AccordionTrigger className="font-heading font-medium text-foreground text-left hover:no-underline py-5">
-                {f.q}
+              <AccordionTrigger className="font-heading font-semibold text-foreground text-left hover:no-underline py-6 text-base group">
+                <span className="flex items-center">
+                  <span className="w-8 h-8 rounded-lg bg-accent/10 text-accent flex items-center justify-center mr-4 text-xs group-data-[state=open]:bg-accent group-data-[state=open]:text-background transition-colors">
+                    0{i + 1}
+                  </span>
+                  {f.q}
+                </span>
               </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground leading-relaxed pb-5">
+              <AccordionContent className="text-muted-foreground leading-relaxed pb-6 pl-12">
                 {f.a}
               </AccordionContent>
             </AccordionItem>

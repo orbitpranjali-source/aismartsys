@@ -3,24 +3,30 @@ import { Button } from "@/components/ui/button";
 import SectionHeader from "./SectionHeader";
 import { GlowOrb } from "./TechPattern";
 import { useStaggerReveal } from "@/hooks/useScrollReveal";
+import heroBrain from "@/assets/images/hero-brain.png";
+import heroAutomation from "@/assets/images/hero-automation.png";
+import heroData from "@/assets/images/hero-data.png";
 
 const projects = [
   {
     title: "AI Chatbot for E-commerce",
     desc: "Conversational AI assistant boosting customer engagement and sales by 40%.",
     tags: ["NLP", "React", "Python"],
+    image: heroBrain,
     gradient: "from-primary/50 to-secondary/50",
   },
   {
     title: "AI Automation Dashboard",
     desc: "Real-time analytics and workflow automation platform for enterprise operations.",
     tags: ["Dashboard", "ML", "Cloud"],
+    image: heroAutomation,
     gradient: "from-secondary/50 to-accent/30",
   },
   {
     title: "AI Marketing Tool",
     desc: "Smart campaign generator with predictive analytics and audience segmentation.",
     tags: ["Marketing", "AI", "Analytics"],
+    image: heroData,
     gradient: "from-accent/30 to-primary/50",
   },
 ];
@@ -30,7 +36,11 @@ const PortfolioSection = () => {
 
   return (
     <section id="portfolio" className="relative section-padding overflow-hidden">
-      <GlowOrb className="w-[400px] h-[400px] top-0 -left-40" color="secondary" />
+      <div className="video-container opacity-10">
+        <video autoPlay muted loop playsInline>
+          <source src="https://assets.mixkit.co/videos/preview/mixkit-flying-through-a-digital-tunnel-with-blue-neon-lights-23004-large.mp4" type="video/mp4" />
+        </video>
+      </div>
 
       <div className="container mx-auto relative z-10" ref={ref}>
         <SectionHeader badge="Portfolio" title="Our Recent Work" description="Real-world AI solutions delivering measurable impact." />
@@ -38,19 +48,21 @@ const PortfolioSection = () => {
           {projects.map((p, i) => (
             <div
               key={p.title}
-              className={`group premium-card overflow-hidden transition-all duration-500 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-              }`}
+              className={`group premium-card overflow-hidden transition-all duration-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                }`}
               style={getDelay(i)}
             >
-              <div className={`relative h-52 bg-gradient-to-br ${p.gradient} flex items-center justify-center overflow-hidden`}>
-                <span className="text-foreground/8 text-8xl font-heading font-bold group-hover:scale-110 transition-transform duration-700">
-                  0{i + 1}
-                </span>
-                <div className="absolute inset-0 opacity-[0.06]" style={{
-                  backgroundImage: `radial-gradient(circle, hsl(var(--foreground)) 1px, transparent 1px)`,
-                  backgroundSize: '20px 20px',
-                }} />
+              <div className="relative h-56 overflow-hidden">
+                <img
+                  src={p.image}
+                  alt={p.title}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+                <div className={`absolute inset-0 bg-gradient-to-br ${p.gradient} opacity-20`} />
+                <div className="absolute inset-0 bg-background/20 mix-blend-overlay" />
+                <div className="absolute top-4 right-4 w-10 h-10 rounded-full glass flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <ExternalLink size={16} className="text-white" />
+                </div>
               </div>
               <div className="p-7">
                 <div className="flex flex-wrap gap-2 mb-4">

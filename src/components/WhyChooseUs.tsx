@@ -15,6 +15,13 @@ const WhyChooseUs = () => {
 
   return (
     <section className="relative section-padding overflow-hidden">
+      {/* Background Video */}
+      <div className="video-container opacity-10">
+        <video autoPlay muted loop playsInline>
+          <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-technology-elements-moving-slowly-24707-large.mp4" type="video/mp4" />
+        </video>
+      </div>
+
       <GlowOrb className="w-[400px] h-[400px] top-1/2 -left-40" color="secondary" />
 
       <div className="container mx-auto relative z-10" ref={ref}>
@@ -23,16 +30,18 @@ const WhyChooseUs = () => {
           {reasons.map((r, i) => (
             <div
               key={r.title}
-              className={`group text-center p-8 premium-card transition-all duration-500 ${
-                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-              }`}
+              className={`group text-center p-8 premium-card transition-all duration-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                }`}
               style={getDelay(i)}
             >
-              <div className="w-16 h-16 mx-auto rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-6 group-hover:scale-110 group-hover:bg-gradient-button group-hover:text-secondary-foreground transition-all duration-500">
+              <div className="w-16 h-16 mx-auto rounded-2xl bg-secondary/10 flex items-center justify-center text-secondary mb-6 group-hover:scale-110 group-hover:bg-gradient-primary group-hover:text-white transition-all duration-500 shadow-sm border border-secondary/10">
                 <r.icon size={28} />
               </div>
               <h3 className="font-heading font-semibold text-foreground mb-3">{r.title}</h3>
               <p className="text-muted-foreground text-sm leading-relaxed">{r.desc}</p>
+
+              {/* Subtle accent line */}
+              <div className="mt-6 mx-auto w-8 h-1 bg-secondary/20 rounded-full group-hover:w-16 group-hover:bg-secondary transition-all duration-500" />
             </div>
           ))}
         </div>
