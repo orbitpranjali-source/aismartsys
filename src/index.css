@@ -30,8 +30,8 @@
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 100% / 0.1;
-    --input: 0 0% 100% / 0.1;
+    --border: 0 0% 100% / 0.08;
+    --input: 0 0% 100% / 0.08;
     --ring: 217 91% 60%;
 
     --radius: 0.75rem;
@@ -49,11 +49,13 @@
     --gradient-primary: linear-gradient(135deg, hsl(217 91% 60%), hsl(263 70% 50%));
     --gradient-accent: linear-gradient(135deg, hsl(187 92% 53%), hsl(217 91% 60%));
     --gradient-button: linear-gradient(135deg, hsl(239 84% 67%), hsl(263 70% 50%));
+    --gradient-nav-pill: linear-gradient(135deg, hsl(217 91% 60%), hsl(239 84% 67%));
+    --gradient-card-border: linear-gradient(135deg, hsl(217 91% 60% / 0.3), hsl(263 70% 50% / 0.15), transparent);
     --shadow-card: 0 4px 24px -4px hsl(217 91% 60% / 0.06);
-    --shadow-card-hover: 0 8px 32px -4px hsl(217 91% 60% / 0.15);
-    --shadow-elevated: 0 12px 40px -8px hsl(0 0% 0% / 0.3);
-    --glass-bg: rgba(255, 255, 255, 0.05);
-    --glass-border: rgba(255, 255, 255, 0.1);
+    --shadow-card-hover: 0 8px 40px -4px hsl(217 91% 60% / 0.15);
+    --shadow-elevated: 0 20px 60px -12px hsl(0 0% 0% / 0.4);
+    --glass-bg: rgba(255, 255, 255, 0.04);
+    --glass-border: rgba(255, 255, 255, 0.08);
   }
 }
 
@@ -87,6 +89,9 @@
   .bg-gradient-button {
     background-image: var(--gradient-button);
   }
+  .bg-gradient-nav-pill {
+    background-image: var(--gradient-nav-pill);
+  }
   .shadow-card {
     box-shadow: var(--shadow-card);
   }
@@ -117,7 +122,7 @@
     @apply transition-all duration-300 ease-out;
   }
   .hover-lift:hover {
-    @apply -translate-y-1.5;
+    @apply -translate-y-2;
     box-shadow: var(--shadow-card-hover);
   }
 
@@ -134,18 +139,49 @@
   }
 
   .section-padding {
-    @apply py-24 md:py-32 px-4;
+    @apply py-28 md:py-36 px-4;
   }
 
   .glass-card {
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
-    backdrop-filter: blur(16px);
-    @apply rounded-2xl transition-all duration-300;
+    backdrop-filter: blur(20px);
+    @apply rounded-2xl transition-all duration-500;
   }
   .glass-card:hover {
-    border-color: hsl(217 91% 60% / 0.3);
-    box-shadow: 0 0 30px hsl(217 91% 60% / 0.08);
+    background: rgba(255, 255, 255, 0.06);
+    border-color: hsl(217 91% 60% / 0.2);
+    box-shadow: 0 0 40px hsl(217 91% 60% / 0.06), 0 8px 32px -8px hsl(0 0% 0% / 0.3);
+  }
+
+  .premium-card {
+    position: relative;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(20px);
+    @apply rounded-2xl transition-all duration-500 overflow-hidden;
+  }
+  .premium-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(135deg, hsl(217 91% 60% / 0.2), transparent, hsl(263 70% 50% / 0.1));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+  .premium-card:hover::before {
+    opacity: 1;
+  }
+  .premium-card:hover {
+    background: rgba(255, 255, 255, 0.06);
+    box-shadow: 0 0 50px hsl(217 91% 60% / 0.06), 0 12px 40px -8px hsl(0 0% 0% / 0.3);
+    transform: translateY(-4px);
   }
 }
 
@@ -164,6 +200,11 @@
   10% { opacity: 1; }
   90% { opacity: 1; }
   100% { transform: translateY(-100vh) translateX(20px); opacity: 0; }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
 
 html {

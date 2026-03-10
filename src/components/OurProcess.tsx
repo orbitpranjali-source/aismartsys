@@ -14,13 +14,13 @@ const OurProcess = () => {
 
   return (
     <section className="relative section-padding overflow-hidden">
-      <div className="absolute inset-0 bg-muted/30" />
+      <div className="absolute inset-0 bg-muted/20" />
       <div className="container mx-auto relative z-10" ref={ref}>
         <SectionHeader badge="Our Process" title="How We Work" description="A streamlined approach from concept to deployment." />
         <div className="relative">
           {/* Connection line */}
-          <div className="hidden lg:block absolute top-14 left-[12%] right-[12%] h-px">
-            <div className={`h-full bg-gradient-to-r from-transparent via-primary/30 to-transparent transition-all duration-1000 ${isVisible ? 'scale-x-100' : 'scale-x-0'}`} />
+          <div className="hidden lg:block absolute top-16 left-[12%] right-[12%] h-px">
+            <div className={`h-full bg-gradient-to-r from-primary/30 via-accent/20 to-secondary/30 transition-all duration-1000 ${isVisible ? 'scale-x-100' : 'scale-x-0'}`} />
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
             {steps.map((s, i) => (
@@ -31,9 +31,9 @@ const OurProcess = () => {
                 }`}
                 style={getDelay(i)}
               >
-                <div className="relative z-10 w-28 h-28 mx-auto rounded-full glass flex items-center justify-center text-primary mb-5 group hover:border-primary/30 transition-all duration-300">
+                <div className="relative z-10 w-28 h-28 mx-auto rounded-full premium-card flex items-center justify-center text-primary mb-6 group">
                   <s.icon size={32} className="transition-transform duration-300 group-hover:scale-110" />
-                  <span className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-gradient-button text-secondary-foreground text-xs font-bold flex items-center justify-center shadow-lg">
+                  <span className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-gradient-button text-secondary-foreground text-xs font-bold flex items-center justify-center shadow-lg shadow-secondary/20">
                     {i + 1}
                   </span>
                 </div>
