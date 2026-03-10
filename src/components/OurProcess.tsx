@@ -13,7 +13,8 @@ const OurProcess = () => {
   const { ref, isVisible, getDelay } = useStaggerReveal(steps.length, 150);
 
   return (
-    <section className="relative section-padding bg-muted/40 overflow-hidden">
+    <section className="relative section-padding overflow-hidden">
+      <div className="absolute inset-0 bg-muted/30" />
       <div className="container mx-auto relative z-10" ref={ref}>
         <SectionHeader badge="Our Process" title="How We Work" description="A streamlined approach from concept to deployment." />
         <div className="relative">
@@ -30,9 +31,9 @@ const OurProcess = () => {
                 }`}
                 style={getDelay(i)}
               >
-                <div className="relative z-10 w-28 h-28 mx-auto rounded-full bg-card border-2 border-primary/20 flex items-center justify-center text-primary mb-5 shadow-card group hover:border-primary/50 hover:shadow-card-hover transition-all duration-300">
+                <div className="relative z-10 w-28 h-28 mx-auto rounded-full glass flex items-center justify-center text-primary mb-5 group hover:border-primary/30 transition-all duration-300">
                   <s.icon size={32} className="transition-transform duration-300 group-hover:scale-110" />
-                  <span className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-accent text-accent-foreground text-xs font-bold flex items-center justify-center shadow-md">
+                  <span className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-gradient-button text-secondary-foreground text-xs font-bold flex items-center justify-center shadow-lg">
                     {i + 1}
                   </span>
                 </div>

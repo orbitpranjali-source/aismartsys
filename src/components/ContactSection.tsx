@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import SectionHeader from "./SectionHeader";
-import { CircuitPattern, GlowOrb } from "./TechPattern";
+import { GlowOrb } from "./TechPattern";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { toast } from "sonner";
 
@@ -19,9 +19,9 @@ const ContactSection = () => {
   };
 
   return (
-    <section id="contact" className="relative section-padding bg-muted/40 overflow-hidden">
-      <CircuitPattern className="top-0 left-0 text-primary" />
-      <GlowOrb className="w-72 h-72 bottom-0 right-0" color="accent" />
+    <section id="contact" className="relative section-padding overflow-hidden">
+      <div className="absolute inset-0 bg-muted/30" />
+      <GlowOrb className="w-72 h-72 bottom-0 right-0" color="primary" />
 
       <div className="container mx-auto relative z-10" ref={ref}>
         <SectionHeader badge="Contact Us" title="Get In Touch" description="Ready to transform your business with AI? Let's talk." />
@@ -29,14 +29,14 @@ const ContactSection = () => {
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         }`}>
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-5 p-8 md:p-10 rounded-2xl bg-card border border-border shadow-card">
+          <form onSubmit={handleSubmit} className="space-y-5 p-8 md:p-10 glass-card">
             <h3 className="font-heading font-semibold text-foreground text-lg mb-2">Send us a message</h3>
             <Input
               placeholder="Your Name"
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
               required
-              className="bg-background h-12"
+              className="bg-muted/50 border-border h-12 text-foreground placeholder:text-muted-foreground"
             />
             <Input
               type="email"
@@ -44,13 +44,13 @@ const ContactSection = () => {
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
               required
-              className="bg-background h-12"
+              className="bg-muted/50 border-border h-12 text-foreground placeholder:text-muted-foreground"
             />
             <Input
               placeholder="Phone Number"
               value={form.phone}
               onChange={(e) => setForm({ ...form, phone: e.target.value })}
-              className="bg-background h-12"
+              className="bg-muted/50 border-border h-12 text-foreground placeholder:text-muted-foreground"
             />
             <Textarea
               placeholder="Your Message"
@@ -58,7 +58,7 @@ const ContactSection = () => {
               onChange={(e) => setForm({ ...form, message: e.target.value })}
               required
               rows={5}
-              className="bg-background resize-none"
+              className="bg-muted/50 border-border resize-none text-foreground placeholder:text-muted-foreground"
             />
             <Button type="submit" className="w-full rounded-xl" size="lg">
               <Send size={16} className="mr-2" /> Send Message
@@ -78,8 +78,8 @@ const ContactSection = () => {
                 { icon: Phone, label: "Phone", value: "+91 70241 28029", href: "tel:+917024128029" },
                 { icon: Mail, label: "Email", value: "vijaytiwari@orbitengineerings.com", href: "mailto:vijaytiwari@orbitengineerings.com" },
               ].map(({ icon: Icon, label, value, href }) => (
-                <a key={label} href={href} className="flex items-center gap-4 text-muted-foreground hover:text-primary transition-colors group">
-                  <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300">
+                <a key={label} href={href} className="flex items-center gap-4 text-muted-foreground hover:text-foreground transition-colors group">
+                  <div className="w-14 h-14 rounded-2xl glass flex items-center justify-center text-primary group-hover:bg-gradient-button group-hover:text-secondary-foreground transition-all duration-300">
                     <Icon size={22} />
                   </div>
                   <div>
@@ -98,7 +98,7 @@ const ContactSection = () => {
                 { num: "99%", label: "Satisfaction" },
               ].map(s => (
                 <div key={s.label} className="text-center">
-                  <p className="font-heading font-bold text-2xl text-primary">{s.num}</p>
+                  <p className="font-heading font-bold text-2xl text-gradient-primary">{s.num}</p>
                   <p className="text-muted-foreground text-xs">{s.label}</p>
                 </div>
               ))}

@@ -1,6 +1,5 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import SectionHeader from "./SectionHeader";
-import { GridDots } from "./TechPattern";
 import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 const faqs = [
@@ -15,9 +14,7 @@ const FAQSection = () => {
   const { ref, isVisible } = useScrollReveal();
 
   return (
-    <section id="faq" className="relative section-padding bg-background overflow-hidden">
-      <GridDots className="top-0 right-0 text-foreground" />
-
+    <section id="faq" className="relative section-padding overflow-hidden">
       <div className="container mx-auto max-w-3xl relative z-10" ref={ref}>
         <SectionHeader badge="FAQ" title="Frequently Asked Questions" description="Find answers to common questions about our AI services." />
         <Accordion type="single" collapsible className="space-y-4">
@@ -25,7 +22,7 @@ const FAQSection = () => {
             <AccordionItem
               key={i}
               value={`faq-${i}`}
-              className={`rounded-xl border border-border bg-card px-6 shadow-card transition-all duration-500 ${
+              className={`rounded-xl glass-card px-6 transition-all duration-500 ${
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               }`}
               style={{ transitionDelay: isVisible ? `${i * 80}ms` : "0ms" }}
