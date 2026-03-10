@@ -7,7 +7,8 @@ interface SectionHeaderProps {
 const SectionHeader = ({ badge, title, description }: SectionHeaderProps) => (
   <div className="text-center max-w-2xl mx-auto mb-16">
     {badge && (
-      <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-semibold uppercase tracking-wider mb-5">
+      <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-xs font-semibold uppercase tracking-wider mb-5 text-accent">
+        <span className="w-1.5 h-1.5 rounded-full bg-accent" />
         {badge}
       </span>
     )}

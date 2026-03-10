@@ -13,21 +13,22 @@ const TestimonialsSection = () => {
   const { ref, isVisible, getDelay } = useStaggerReveal(testimonials.length, 120);
 
   return (
-    <section className="relative section-padding bg-muted/40 overflow-hidden">
+    <section className="relative section-padding overflow-hidden">
+      <div className="absolute inset-0 bg-muted/30" />
       <GlowOrb className="w-64 h-64 top-0 right-0" color="accent" />
 
       <div className="container mx-auto relative z-10" ref={ref}>
         <SectionHeader badge="Testimonials" title="What Our Clients Say" />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {testimonials.map((t, i) => (
             <div
               key={t.name}
-              className={`relative p-8 rounded-2xl bg-card border border-border shadow-card hover-lift transition-all duration-500 ${
+              className={`relative p-8 glass-card transition-all duration-500 ${
                 isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
               }`}
               style={getDelay(i)}
             >
-              <Quote size={32} className="text-primary/10 absolute top-6 right-6" />
+              <Quote size={32} className="text-primary/15 absolute top-6 right-6" />
               <div className="flex gap-1 mb-5">
                 {[...Array(5)].map((_, j) => (
                   <Star key={j} size={16} className="fill-accent text-accent" />
@@ -35,7 +36,7 @@ const TestimonialsSection = () => {
               </div>
               <p className="text-muted-foreground text-sm leading-relaxed mb-6 italic">"{t.text}"</p>
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-full bg-primary/10 text-primary flex items-center justify-center font-heading font-bold text-sm">
+                <div className="w-11 h-11 rounded-full bg-gradient-primary flex items-center justify-center text-secondary-foreground font-heading font-bold text-sm">
                   {t.initials}
                 </div>
                 <div>
