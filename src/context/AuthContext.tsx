@@ -8,7 +8,7 @@ interface User {
 interface AuthContextType {
     isAuthenticated: boolean;
     user: User | null;
-    login: (email: string) => void;
+    login: (email: string, name?: string) => void;
     logout: () => void;
 }
 
@@ -26,8 +26,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     }, []);
 
-    const login = (email: string) => {
-        const newUser = { email, name: email.split("@")[0] };
+    const login = (email: string, name?: string) => {
+        const newUser = { email, name: name || email.split("@")[0] };
         setUser(newUser);
         setIsAuthenticated(true);
         localStorage.setItem("user", JSON.stringify(newUser));
