@@ -65,10 +65,38 @@ const ChatbotBuilder = () => {
 
     const getAIResponse = (input: string) => {
         const lowInput = input.toLowerCase();
-        if (lowInput.includes("hello") || lowInput.includes("hi")) return "Hi there! How's your day going?";
-        if (lowInput.includes("price") || lowInput.includes("cost")) return "Our AI SmartSyS subscription starts at $29/month. Would you like to see the full pricing list?";
-        if (lowInput.includes("portfolio")) return "You can check our recent projects in the Portfolio section of the landing page!";
-        return "That's an interesting question! As an AI assistant from SmartSyS, I'm constantly learning to provide better answers. Can you tell me more?";
+
+        if (lowInput.includes("hello") || lowInput.includes("hi") || lowInput.includes("hey")) {
+            return "Hello there! How can I assist you with your AI journey today?";
+        }
+        if (lowInput.includes("price") || lowInput.includes("cost") || lowInput.includes("pricing")) {
+            return "Our AI SmartSyS subscription starts at $29/month. We also have enterprise plans starting at $99/month. Would you like to see the full pricing list?";
+        }
+        if (lowInput.includes("portfolio") || lowInput.includes("projects") || lowInput.includes("work")) {
+            return "We've worked with top companies creating scalable AI automation. You can check our recent projects in the Portfolio section of the landing page!";
+        }
+        if (lowInput.includes("code") || lowInput.includes("programming") || lowInput.includes("dev")) {
+            return "I can help you review code, write basic functions, or suggest architectural improvements. What language are you working in?";
+        }
+        if (lowInput.includes("who are you") || lowInput.includes("what are you") || lowInput.includes("your name")) {
+            return "I am the SmartSyS Virtual Assistant, an AI designed to help you brainstorm ideas, automate tasks, and get things done faster.";
+        }
+        if (lowInput.includes("help") || lowInput.includes("support") || lowInput.includes("issue")) {
+            return "I'm here to help! Please describe the issue you're facing or what you need assistance with.";
+        }
+        if (lowInput.includes("thank")) {
+            return "You're very welcome! Let me know if you need anything else.";
+        }
+
+        const genericResponses = [
+            "That's an interesting question. Let me process that for a moment...",
+            "As an AI from SmartSyS, I'm constantly learning. From what I understand, we should look into optimizing this process.",
+            "I hear you. Perhaps we could approach this from a different angle to achieve better results.",
+            "Absolutely! AI integration here could streamline that workflow by at least 40%.",
+            "This sounds like a great use case for our machine learning capabilities. Would you like me to elaborate?"
+        ];
+
+        return genericResponses[Math.floor(Math.random() * genericResponses.length)];
     };
 
     const clearChat = () => {
@@ -116,8 +144,8 @@ const ChatbotBuilder = () => {
                                     {msg.sender === "user" ? <User size={16} /> : <Bot size={16} />}
                                 </div>
                                 <div className={`p-4 rounded-2xl ${msg.sender === "user"
-                                        ? "bg-gradient-primary text-white rounded-tr-none"
-                                        : "glass border-white/5 text-foreground rounded-tl-none"
+                                    ? "bg-gradient-primary text-white rounded-tr-none"
+                                    : "glass border-white/5 text-foreground rounded-tl-none"
                                     }`}>
                                     <p className="text-sm leading-relaxed">{msg.text}</p>
                                     <p className="text-[10px] mt-2 opacity-50 font-medium">

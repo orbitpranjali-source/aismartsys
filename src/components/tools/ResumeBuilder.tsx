@@ -9,7 +9,9 @@ import { usePromptProcessor } from "@/hooks/usePromptProcessor";
 const ResumeBuilder = () => {
     const [form, setForm] = useState({
         name: "",
+        jobTitle: "",
         email: "",
+        phone: "",
         summary: "",
         experience: "",
         education: "",
@@ -81,12 +83,34 @@ const ResumeBuilder = () => {
                             </div>
                             <div className="space-y-2">
                                 <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+                                    <Briefcase size={12} /> Job Title
+                                </label>
+                                <Input
+                                    placeholder="Software Engineer"
+                                    value={form.jobTitle}
+                                    onChange={(e) => setForm({ ...form, jobTitle: e.target.value })}
+                                    className="bg-muted/30 border-white/5"
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-2">
                                     @ Email
                                 </label>
                                 <Input
                                     placeholder="john@example.com"
                                     value={form.email}
                                     onChange={(e) => setForm({ ...form, email: e.target.value })}
+                                    className="bg-muted/30 border-white/5"
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+                                    Phone
+                                </label>
+                                <Input
+                                    placeholder="+1 234 567 8900"
+                                    value={form.phone}
+                                    onChange={(e) => setForm({ ...form, phone: e.target.value })}
                                     className="bg-muted/30 border-white/5"
                                 />
                             </div>
@@ -147,7 +171,7 @@ const ResumeBuilder = () => {
                             disabled={busy}
                             className="w-full bg-purple-600 hover:bg-purple-700 h-12 font-semibold mt-4"
                         >
-                            {busy ? (isProcessing ? "Refining content..." : "Processing...") : "Generate Resume Preview"}
+                            {busy ? (isProcessing ? "Refining content..." : "Processing...") : "Generate Resume"}
                         </Button>
                     </div>
                 </div>
@@ -171,30 +195,47 @@ const ResumeBuilder = () => {
                             </div>
                         ) : (
                             <div className="animate-fade-in text-slate-200">
-                                <div className="border-b-2 border-purple-500/30 pb-6 mb-8">
-                                    <h1 className="text-4xl font-bold mb-2">{resumeData.name}</h1>
-                                    <p className="text-purple-400 font-medium">{resumeData.email}</p>
+                                <div className="border-b-2 border-purple-500/30 pb-6 mb-8 text-center">
+                                    <h1 className="text-4xl font-bold mb-2 tracking-tight">{resumeData.name}</h1>
+                                    <p className="text-xl text-purple-400 font-medium mb-3">{resumeData.jobTitle}</p>
+                                    <div className="flex justify-center flex-wrap gap-4 text-sm text-slate-400">
+                                        <span>{resumeData.email}</span>
+                                        {resumeData.phone && (
+                                            <>
+                                                <span>•</span>
+                                                <span>{resumeData.phone}</span>
+                                            </>
+                                        )}
+                                    </div>
                                 </div>
 
-                                <section className="mb-8">
-                                    <h3 className="text-xs font-bold uppercase tracking-widest text-purple-400 mb-3">Summary</h3>
-                                    <p className="text-sm leading-relaxed whitespace-pre-line">{resumeData.summary}</p>
-                                </section>
+                                {resumeData.summary && (
+                                    <section className="mb-8">
+                                        <h3 className="text-xs font-bold uppercase tracking-widest text-purple-400 mb-3">Professional Summary</h3>
+                                        <p className="text-sm leading-relaxed whitespace-pre-line">{resumeData.summary}</p>
+                                    </section>
+                                )}
 
-                                <section className="mb-8">
-                                    <h3 className="text-xs font-bold uppercase tracking-widest text-purple-400 mb-3">Experience</h3>
-                                    <p className="text-sm leading-relaxed whitespace-pre-line">{resumeData.experience}</p>
-                                </section>
+                                {resumeData.experience && (
+                                    <section className="mb-8">
+                                        <h3 className="text-xs font-bold uppercase tracking-widest text-purple-400 mb-3">Work Experience</h3>
+                                        <p className="text-sm leading-relaxed whitespace-pre-line">{resumeData.experience}</p>
+                                    </section>
+                                )}
 
                                 <div className="grid grid-cols-2 gap-8">
-                                    <section>
-                                        <h3 className="text-xs font-bold uppercase tracking-widest text-purple-400 mb-3">Education</h3>
-                                        <p className="text-sm leading-relaxed">{resumeData.education}</p>
-                                    </section>
-                                    <section>
-                                        <h3 className="text-xs font-bold uppercase tracking-widest text-purple-400 mb-3">Skills</h3>
-                                        <p className="text-sm leading-relaxed">{resumeData.skills}</p>
-                                    </section>
+                                    {resumeData.education && (
+                                        <section>
+                                            <h3 className="text-xs font-bold uppercase tracking-widest text-purple-400 mb-3">Education</h3>
+                                            <p className="text-sm leading-relaxed whitespace-pre-line">{resumeData.education}</p>
+                                        </section>
+                                    )}
+                                    {resumeData.skills && (
+                                        <section>
+                                            <h3 className="text-xs font-bold uppercase tracking-widest text-purple-400 mb-3">Skills</h3>
+                                            <p className="text-sm leading-relaxed whitespace-pre-line">{resumeData.skills}</p>
+                                        </section>
+                                    )}
                                 </div>
                             </div>
                         )}

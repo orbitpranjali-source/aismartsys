@@ -8,7 +8,7 @@ import { usePromptProcessor } from "@/hooks/usePromptProcessor";
 const ImageGenerator = () => {
     const [prompt, setPrompt] = useState("");
     const [isGenerating, setIsGenerating] = useState(false);
-    const [resultImage, setResultImage] = useState<string | null>(null);
+    const [resultImages, setResultImages] = useState<string[] | null>(null);
     const { processPrompt, isProcessing } = usePromptProcessor();
 
     const handleGenerate = async () => {
@@ -19,13 +19,19 @@ const ImageGenerator = () => {
         setIsGenerating(true);
 
         // Process prompt through AI refinement
-        const refinedPrompt = await processPrompt(prompt, "AI image generator - user wants to generate an image matching this description");
+        await processPrompt(prompt, "AI image generator - user wants to generate an image matching this description");
 
         // Simulate Image Generation with Unsplash
         setTimeout(() => {
-            setResultImage(`https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?auto=format&fit=crop&q=80&w=800&sig=${Math.random()}`);
+            const keywords = prompt.split(" ").filter(w => w.length > 3).join(",");
+            setResultImages([
+                `https://source.unsplash.com/800x800/?${keywords}&sig=${Math.random()}`,
+                `https://source.unsplash.com/800x800/?${keywords}&sig=${Math.random()}`,
+                `https://source.unsplash.com/800x800/?${keywords}&sig=${Math.random()}`,
+                `https://source.unsplash.com/800x800/?${keywords}&sig=${Math.random()}`
+            ]);
             setIsGenerating(false);
-            toast.success("AI Image Generated!");
+            toast.success("AI Images Generated!");
         }, 2000);
     };
 
@@ -73,30 +79,36 @@ const ImageGenerator = () => {
                 </p>
             </div>
 
-            <div className="glass border-white/5 rounded-3xl overflow-hidden min-h-[400px] flex items-center justify-center relative bg-black/20">
-                {!resultImage && !busy ? (
-                    <div className="text-center opacity-30 select-none">
+            <div className={`glass border-white/5 rounded-3xl overflow-hidden min-h-[400px] flex items-center justify-center relative bg-black/20 ${resultImages && !busy ? "p-6" : ""}`}>
+                {!resultImages && !busy ? (
+                    <div className="text-center opacity-30 select-none p-6">
                         <ImageIcon size={64} className="mx-auto mb-4" />
                         <p className="text-xl">Your creation will appear here</p>
                     </div>
                 ) : busy ? (
-                    <div className="flex flex-col items-center gap-4">
+                    <div className="flex flex-col items-center gap-4 p-6">
                         <div className="w-16 h-16 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
                         <p className="text-muted-foreground animate-pulse font-medium tracking-widest uppercase text-xs">
                             {isProcessing ? "Refining your prompt..." : "AI is painting..."}
                         </p>
                     </div>
                 ) : (
-                    <div className="w-full relative animate-fade-in group">
-                        <img
-                            src={resultImage!}
-                            alt="AI Generated"
-                            className="w-full h-auto max-h-[600px] object-contain block mx-auto transition-transform duration-700 group-hover:scale-[1.01]"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center pb-8">
-                            <Button className="bg-white/10 backdrop-blur-md hover:bg-white/20 border border-white/10 rounded-xl px-10 py-6 h-auto">
-                                <Download size={20} className="mr-2" /> Download Original
-                            </Button>
+                    <div className="w-full relative animate-fade-in">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            {resultImages!.map((img, i) => (
+                                <div key={i} className="relative group rounded-2xl overflow-hidden border border-white/5 glass">
+                                    <img
+                                        src={img}
+                                        alt={`AI Generated ${i}`}
+                                        className="w-full aspect-square object-cover transition-transform duration-700 group-hover:scale-[1.05]"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center pb-4">
+                                        <Button className="bg-white/10 backdrop-blur-md hover:bg-white/20 border border-white/10 rounded-lg px-4 py-2 h-auto text-xs text-white">
+                                            <Download size={14} className="mr-2" /> Download
+                                        </Button>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 )}

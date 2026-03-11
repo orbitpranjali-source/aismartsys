@@ -11,35 +11,11 @@ const CaptionGenerator = () => {
     const [captions, setCaptions] = useState<string[]>([]);
 
     const generateCaptions = async () => {
-        if (!topic.trim()) {
+        if (!topic) {
             toast.error("Please enter a topic");
             return;
         }
         setIsGenerating(true);
-<<<<<<< HEAD
-
-        try {
-            const { data, error } = await supabase.functions.invoke("generate-captions", {
-                body: { topic: topic.trim() },
-            });
-
-            if (error) {
-                console.error("Caption generation error:", error);
-                toast.error("Failed to generate captions. Please try again.");
-                return;
-            }
-
-            if (data?.captions && Array.isArray(data.captions)) {
-                setCaptions(data.captions);
-                toast.success(`${data.captions.length} captions generated!`);
-            } else {
-                toast.error("Unexpected response format");
-            }
-        } catch (err) {
-            console.error("Caption generator failed:", err);
-            toast.error("Something went wrong. Please try again.");
-        } finally {
-=======
         // Simulate AI generation
         setTimeout(() => {
             const lowercaseTopic = topic.toLowerCase();
@@ -51,7 +27,10 @@ const CaptionGenerator = () => {
                     "Chasing sunshine and making memories 🌊✨ #VacationMode",
                     "Good vibes and tan lines ☀️😎 #SummerDays",
                     "Life feels better under the summer sun 🌴🌺 #TravelDiaries",
-                    "Saltwater cures everything. Ready for another adventure! 🐚✈️ #Wanderlust"
+                    "Saltwater cures everything. Ready for another adventure! 🐚✈️ #Wanderlust",
+                    "Tropic like it's hot 🔥🍹 #SummerNights",
+                    "Catching rays and making waves 🌊🏄‍♀️ #BeachLife",
+                    "Sunshine on my mind and sand between my toes 🏖️☀️ #SummerVibes"
                 ];
             } else if (lowercaseTopic.includes("travel") || lowercaseTopic.includes("photo") || lowercaseTopic.includes("trip")) {
                 results = [
@@ -59,7 +38,10 @@ const CaptionGenerator = () => {
                     "Out of office. Catch me if you can! ✈️🗺️ #Wanderlust",
                     "Exploring new places and finding myself along the way 🎒✨ #AdventureTime",
                     "Passport stamps and beautiful sights 🌅🏰 #GlobeTrotter",
-                    "Life is short and the world is wide. Let's go! 🚀🌎 #Explorer"
+                    "Life is short and the world is wide. Let's go! 🚀🌎 #Explorer",
+                    "Jet lag, but make it aesthetic ✈️💫 #TravelDiaries",
+                    "To travel is to live ✨🌿 #Wanderlust",
+                    "Finding paradise wherever I go 🌴🗺️ #TravelPhotography"
                 ];
             } else if (lowercaseTopic.includes("coffee") || lowercaseTopic.includes("morning") || lowercaseTopic.includes("cafe") || lowercaseTopic.includes("breakfast")) {
                 results = [
@@ -67,7 +49,10 @@ const CaptionGenerator = () => {
                     "But first, coffee. The rest can wait 🥐🤎 #CoffeeLover",
                     "A little caffeine and a lot of dreams 🌟☕ #DailyGrind",
                     "Sipping on moments of peace before the day begins 🪴📖 #MorningRoutine",
-                    "Espresso yourself! Good days start like this ☕💫 #CafeDiaries"
+                    "Espresso yourself! Good days start like this ☕💫 #CafeDiaries",
+                    "Coffee: my love language ❤️☕ #CoffeeTime",
+                    "Waking up and smelling the coffee 🌅☕ #MorningMotivation",
+                    "A perfect blend of cozy and caffeinated 🤎✨ #CafeVibes"
                 ];
             } else if (lowercaseTopic.includes("gym") || lowercaseTopic.includes("workout") || lowercaseTopic.includes("fitness") || lowercaseTopic.includes("health")) {
                 results = [
@@ -75,7 +60,10 @@ const CaptionGenerator = () => {
                     "Sweat today, shine tomorrow 🏋️‍♀️✨ #GymLife",
                     "Stronger than yesterday. Let's get it! 🏃‍♂️💥 #Workout",
                     "Excuses don't burn calories. Time to hustle 💯👟 #FitFam",
-                    "Fueling the body and the mind 🥗🧘‍♀️ #HealthJourney"
+                    "Fueling the body and the mind 🥗🧘‍♀️ #HealthJourney",
+                    "Gains don't happen by accident 💪🚀 #FitLife",
+                    "Sore today, strong tomorrow 🏋️‍♂️💯 #NoExcuses",
+                    "Trust the process and put in the work 🔥🏅 #Fitness"
                 ];
             } else if (lowercaseTopic.includes("work") || lowercaseTopic.includes("business") || lowercaseTopic.includes("office") || lowercaseTopic.includes("marketing")) {
                 results = [
@@ -83,7 +71,10 @@ const CaptionGenerator = () => {
                     "Another day, another opportunity to grow 📈✨ #BusinessMindset",
                     "Focused on the vision and trusting the process 🚀🎯 #Entrepreneur",
                     "Turning dreams into plans, and plans into reality 💡📊 #Success",
-                    "Building something meaningful today! 🛠️💼 #WorkGrind"
+                    "Building something meaningful today! 🛠️💼 #WorkGrind",
+                    "Innovate, create, inspire 🌟💡 #Leadership",
+                    "Teamwork makes the dream work 🤝✨ #OfficeLife",
+                    "Stay focused, stay driven 🚀📈 #Marketing"
                 ];
             } else if (lowercaseTopic.includes("food") || lowercaseTopic.includes("dinner") || lowercaseTopic.includes("lunch") || lowercaseTopic.includes("eat")) {
                 results = [
@@ -91,10 +82,12 @@ const CaptionGenerator = () => {
                     "Eating my way through the day 🍕🤤 #FoodLover",
                     "Everything tastes better when you share it 🥘🥂 #FoodPhotography",
                     "A feast for the eyes and the stomach! 🍝❤️ #Delicious",
-                    "First we eat, then we do everything else 🥗😋 #Foodstagram"
+                    "First we eat, then we do everything else 🥗😋 #Foodstagram",
+                    "Counting memories, not calories 🍰🎉 #DessertFirst",
+                    "Flavors that speak for themselves 🌶️🍽️ #Gourmet",
+                    "Love at first bite 🍔🍟 #FoodBlogger"
                 ];
             } else {
-                // Fallback: Create a clean hashtag from the topic
                 const cleanTopic = topic.trim().replace(/[^a-zA-Z0-9 ]/g, "");
                 const words = cleanTopic.split(" ").filter(w => w.length > 0);
                 const camelCaseHashtag = words.length > 0
@@ -106,14 +99,17 @@ const CaptionGenerator = () => {
                     `Absolutely obsessed with this right now! What do you guys think? 😍💡 ${camelCaseHashtag}`,
                     `Good energy, great moments, and endless inspiration 🌟🔥 ${camelCaseHashtag}`,
                     `Some things are just too good not to share with the world 📸✨ ${camelCaseHashtag}`,
-                    `Embracing every single moment of this journey ❤️💯 ${camelCaseHashtag}`
+                    `Embracing every single moment of this journey ❤️💯 ${camelCaseHashtag}`,
+                    `Chasing dreams and making them reality 💫✨ ${camelCaseHashtag}`,
+                    `Living my best life right here, right now 🌟🔥 ${camelCaseHashtag}`,
+                    `A little bit of magic in every day 🪄✨ ${camelCaseHashtag}`
                 ];
             }
 
             setCaptions(results);
->>>>>>> 105a98e (changes in whole website)
             setIsGenerating(false);
-        }
+            toast.success("Captions generated!");
+        }, 1500);
     };
 
     const copyToClipboard = (text: string) => {
