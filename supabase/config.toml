@@ -1,0 +1,4 @@
+project_id = "jlnzawlqtzehzujuxnim"
+
+[functions.process-prompt]
+verify_jwt = false
