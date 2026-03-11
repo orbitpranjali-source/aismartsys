@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { Menu, X, Layout, LogOut } from "lucide-react";
+import { Menu, X, Layout, LogOut, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import aiLogo from "@/assets/ai-logo.jpg";
 import { useAuth } from "@/context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
 import AuthModal from "./AuthModal";
+import { useTheme } from "@/context/ThemeContext";
 
 const navLinks = [
   { label: "Home", href: "/#home" },
@@ -22,6 +23,7 @@ const Navbar = () => {
   const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -82,6 +84,9 @@ const Navbar = () => {
         </div>
 
         <div className="hidden md:flex items-center gap-3">
+          <Button size="icon" variant="ghost" onClick={() => setTheme(theme === "dark" ? "light" : "dark")} className="rounded-full hover:bg-muted/50 text-foreground transition-all duration-300">
+            {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+          </Button>
           {isAuthenticated ? (
             <>
               <Button size="sm" onClick={() => navigate("/dashboard")} className="rounded-full px-6 bg-muted/50 text-foreground hover:bg-muted border border-white/5 transition-all duration-300">
@@ -99,9 +104,14 @@ const Navbar = () => {
         </div>
 
         {/* Mobile toggle */}
-        <button className="md:hidden text-foreground p-2 rounded-lg hover:bg-muted/50 transition-colors" onClick={() => setIsOpen(!isOpen)}>
-          {isOpen ? <X size={22} /> : <Menu size={22} />}
-        </button>
+        <div className="flex justify-end items-center gap-2 md:hidden">
+          <Button size="icon" variant="ghost" onClick={() => setTheme(theme === "dark" ? "light" : "dark")} className="rounded-full hover:bg-muted/50 text-foreground transition-all duration-300">
+            {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
+          </Button>
+          <button className="text-foreground p-2 rounded-lg hover:bg-muted/50 transition-colors" onClick={() => setIsOpen(!isOpen)}>
+            {isOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile menu */}

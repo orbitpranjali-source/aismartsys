@@ -16,6 +16,7 @@ const CaptionGenerator = () => {
             return;
         }
         setIsGenerating(true);
+<<<<<<< HEAD
 
         try {
             const { data, error } = await supabase.functions.invoke("generate-captions", {
@@ -38,6 +39,79 @@ const CaptionGenerator = () => {
             console.error("Caption generator failed:", err);
             toast.error("Something went wrong. Please try again.");
         } finally {
+=======
+        // Simulate AI generation
+        setTimeout(() => {
+            const lowercaseTopic = topic.toLowerCase();
+            let results: string[] = [];
+
+            if (lowercaseTopic.includes("summer") || lowercaseTopic.includes("vacation") || lowercaseTopic.includes("beach")) {
+                results = [
+                    "Sun, sand, and endless summer vibes 🌞🏖️ #SummerMood",
+                    "Chasing sunshine and making memories 🌊✨ #VacationMode",
+                    "Good vibes and tan lines ☀️😎 #SummerDays",
+                    "Life feels better under the summer sun 🌴🌺 #TravelDiaries",
+                    "Saltwater cures everything. Ready for another adventure! 🐚✈️ #Wanderlust"
+                ];
+            } else if (lowercaseTopic.includes("travel") || lowercaseTopic.includes("photo") || lowercaseTopic.includes("trip")) {
+                results = [
+                    "Collecting moments, not things 🌍📸 #TravelGram",
+                    "Out of office. Catch me if you can! ✈️🗺️ #Wanderlust",
+                    "Exploring new places and finding myself along the way 🎒✨ #AdventureTime",
+                    "Passport stamps and beautiful sights 🌅🏰 #GlobeTrotter",
+                    "Life is short and the world is wide. Let's go! 🚀🌎 #Explorer"
+                ];
+            } else if (lowercaseTopic.includes("coffee") || lowercaseTopic.includes("morning") || lowercaseTopic.includes("cafe") || lowercaseTopic.includes("breakfast")) {
+                results = [
+                    "Starting the day right, one cup at a time ☕✨ #MorningVibes",
+                    "But first, coffee. The rest can wait 🥐🤎 #CoffeeLover",
+                    "A little caffeine and a lot of dreams 🌟☕ #DailyGrind",
+                    "Sipping on moments of peace before the day begins 🪴📖 #MorningRoutine",
+                    "Espresso yourself! Good days start like this ☕💫 #CafeDiaries"
+                ];
+            } else if (lowercaseTopic.includes("gym") || lowercaseTopic.includes("workout") || lowercaseTopic.includes("fitness") || lowercaseTopic.includes("health")) {
+                results = [
+                    "Pushing limits and breaking boundaries 💪🔥 #FitnessMotivation",
+                    "Sweat today, shine tomorrow 🏋️‍♀️✨ #GymLife",
+                    "Stronger than yesterday. Let's get it! 🏃‍♂️💥 #Workout",
+                    "Excuses don't burn calories. Time to hustle 💯👟 #FitFam",
+                    "Fueling the body and the mind 🥗🧘‍♀️ #HealthJourney"
+                ];
+            } else if (lowercaseTopic.includes("work") || lowercaseTopic.includes("business") || lowercaseTopic.includes("office") || lowercaseTopic.includes("marketing")) {
+                results = [
+                    "Making things happen and chasing goals 💼🌟 #Hustle",
+                    "Another day, another opportunity to grow 📈✨ #BusinessMindset",
+                    "Focused on the vision and trusting the process 🚀🎯 #Entrepreneur",
+                    "Turning dreams into plans, and plans into reality 💡📊 #Success",
+                    "Building something meaningful today! 🛠️💼 #WorkGrind"
+                ];
+            } else if (lowercaseTopic.includes("food") || lowercaseTopic.includes("dinner") || lowercaseTopic.includes("lunch") || lowercaseTopic.includes("eat")) {
+                results = [
+                    "Good food, good mood 🍔✨ #Foodie",
+                    "Eating my way through the day 🍕🤤 #FoodLover",
+                    "Everything tastes better when you share it 🥘🥂 #FoodPhotography",
+                    "A feast for the eyes and the stomach! 🍝❤️ #Delicious",
+                    "First we eat, then we do everything else 🥗😋 #Foodstagram"
+                ];
+            } else {
+                // Fallback: Create a clean hashtag from the topic
+                const cleanTopic = topic.trim().replace(/[^a-zA-Z0-9 ]/g, "");
+                const words = cleanTopic.split(" ").filter(w => w.length > 0);
+                const camelCaseHashtag = words.length > 0
+                    ? "#" + words.map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join("")
+                    : "#Vibes";
+
+                results = [
+                    `Bringing my vision to life, one step at a time! ✨🚀 ${camelCaseHashtag}`,
+                    `Absolutely obsessed with this right now! What do you guys think? 😍💡 ${camelCaseHashtag}`,
+                    `Good energy, great moments, and endless inspiration 🌟🔥 ${camelCaseHashtag}`,
+                    `Some things are just too good not to share with the world 📸✨ ${camelCaseHashtag}`,
+                    `Embracing every single moment of this journey ❤️💯 ${camelCaseHashtag}`
+                ];
+            }
+
+            setCaptions(results);
+>>>>>>> 105a98e (changes in whole website)
             setIsGenerating(false);
         }
     };

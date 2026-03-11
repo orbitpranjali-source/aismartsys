@@ -12,7 +12,7 @@ const serviceLinks = [
 ];
 
 const Footer = () => (
-  <footer className="relative border-t border-white/5 pt-20 pb-8 overflow-hidden bg-[#0a0a0c]">
+  <footer className="relative border-t border-border pt-20 pb-8 overflow-hidden bg-background">
     <div className="absolute inset-0 bg-gradient-to-b from-transparent to-primary/5" />
 
     {/* Decorative blur orb */}
@@ -31,7 +31,7 @@ const Footer = () => (
           </p>
           <div className="flex gap-4">
             {[Twitter, Linkedin, Github, Instagram].map((Icon, i) => (
-              <a key={i} href="#" className="w-10 h-10 rounded-xl glass border border-white/5 flex items-center justify-center text-muted-foreground hover:text-accent hover:border-accent/20 transition-all duration-300 hover:scale-110">
+              <a key={i} href="#" className="w-10 h-10 rounded-xl glass border border-border flex items-center justify-center text-muted-foreground hover:text-accent hover:border-accent/20 transition-all duration-300 hover:scale-110">
                 <Icon size={18} />
               </a>
             ))}
@@ -78,7 +78,7 @@ const Footer = () => (
               vijaytiwari@orbitengineerings.com
             </a>
             <div className="pt-4">
-              <div className="p-4 rounded-xl glass border border-white/5">
+              <div className="p-4 rounded-xl glass border border-border">
                 <p className="text-[10px] text-accent font-bold uppercase tracking-widest mb-1">Status</p>
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
@@ -90,7 +90,7 @@ const Footer = () => (
         </div>
       </div>
 
-      <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+      <div className="pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
         <p className="text-muted-foreground text-xs">
           © {new Date().getFullYear()} AI SmartSyS. Engineered for Excellence.
         </p>
