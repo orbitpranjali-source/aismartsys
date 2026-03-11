@@ -1,28 +1,35 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Image as ImageIcon, Sparkles, Download, RefreshCw, Layers } from "lucide-react";
+import { Image as ImageIcon, Sparkles, Download, RefreshCw, Layers, Wand2 } from "lucide-react";
 import { toast } from "sonner";
+import { usePromptProcessor } from "@/hooks/usePromptProcessor";
 
 const ImageGenerator = () => {
     const [prompt, setPrompt] = useState("");
     const [isGenerating, setIsGenerating] = useState(false);
     const [resultImage, setResultImage] = useState<string | null>(null);
+    const { processPrompt, isProcessing } = usePromptProcessor();
 
-    const handleGenerate = () => {
+    const handleGenerate = async () => {
         if (!prompt) {
             toast.error("Please enter an image prompt");
             return;
         }
         setIsGenerating(true);
+
+        // Process prompt through AI refinement
+        const refinedPrompt = await processPrompt(prompt, "AI image generator - user wants to generate an image matching this description");
+
         // Simulate Image Generation with Unsplash
         setTimeout(() => {
-            const keywords = prompt.toLowerCase().split(" ").join(",");
             setResultImage(`https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?auto=format&fit=crop&q=80&w=800&sig=${Math.random()}`);
             setIsGenerating(false);
             toast.success("AI Image Generated!");
         }, 2000);
     };
+
+    const busy = isGenerating || isProcessing;
 
     return (
         <div className="max-w-4xl mx-auto">
@@ -49,10 +56,10 @@ const ImageGenerator = () => {
                     </div>
                     <Button
                         onClick={handleGenerate}
-                        disabled={isGenerating}
+                        disabled={busy}
                         className="h-14 px-8 bg-gradient-button text-white font-bold rounded-xl shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all hover:scale-[1.02]"
                     >
-                        {isGenerating ? (
+                        {busy ? (
                             <RefreshCw size={20} className="animate-spin" />
                         ) : (
                             <>
@@ -61,18 +68,23 @@ const ImageGenerator = () => {
                         )}
                     </Button>
                 </div>
+                <p className="text-[10px] text-muted-foreground mt-2 flex items-center gap-1">
+                    <Wand2 size={10} /> Smart prompt processing enabled — typos and short phrases are auto-corrected
+                </p>
             </div>
 
             <div className="glass border-white/5 rounded-3xl overflow-hidden min-h-[400px] flex items-center justify-center relative bg-black/20">
-                {!resultImage && !isGenerating ? (
+                {!resultImage && !busy ? (
                     <div className="text-center opacity-30 select-none">
                         <ImageIcon size={64} className="mx-auto mb-4" />
                         <p className="text-xl">Your creation will appear here</p>
                     </div>
-                ) : isGenerating ? (
+                ) : busy ? (
                     <div className="flex flex-col items-center gap-4">
                         <div className="w-16 h-16 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
-                        <p className="text-muted-foreground animate-pulse font-medium tracking-widest uppercase text-xs">AI is painting...</p>
+                        <p className="text-muted-foreground animate-pulse font-medium tracking-widest uppercase text-xs">
+                            {isProcessing ? "Refining your prompt..." : "AI is painting..."}
+                        </p>
                     </div>
                 ) : (
                     <div className="w-full relative animate-fade-in group">

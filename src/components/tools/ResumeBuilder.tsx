@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { FileText, Sparkles, Download, User, Briefcase, GraduationCap, Code } from "lucide-react";
+import { FileText, Sparkles, Download, User, Briefcase, GraduationCap, Code, Wand2 } from "lucide-react";
 import { toast } from "sonner";
+import { usePromptProcessor } from "@/hooks/usePromptProcessor";
 
 const ResumeBuilder = () => {
     const [form, setForm] = useState({
@@ -16,19 +17,39 @@ const ResumeBuilder = () => {
     });
     const [isGenerating, setIsGenerating] = useState(false);
     const [resumeData, setResumeData] = useState<typeof form | null>(null);
+    const { processPrompt, isProcessing } = usePromptProcessor();
 
-    const handleGenerate = () => {
+    const handleGenerate = async () => {
         if (!form.name || !form.email) {
             toast.error("Please fill in at least Name and Email");
             return;
         }
         setIsGenerating(true);
+
+        // Process text fields through AI refinement
+        const [refinedSummary, refinedExperience, refinedEducation, refinedSkills] = await Promise.all([
+            form.summary ? processPrompt(form.summary, "professional resume summary section") : Promise.resolve(form.summary),
+            form.experience ? processPrompt(form.experience, "resume work experience section") : Promise.resolve(form.experience),
+            form.education ? processPrompt(form.education, "resume education section") : Promise.resolve(form.education),
+            form.skills ? processPrompt(form.skills, "resume skills list") : Promise.resolve(form.skills),
+        ]);
+
+        const refined = {
+            ...form,
+            summary: refinedSummary,
+            experience: refinedExperience,
+            education: refinedEducation,
+            skills: refinedSkills,
+        };
+
         setTimeout(() => {
-            setResumeData(form);
+            setResumeData(refined);
             setIsGenerating(false);
             toast.success("Resume preview generated!");
-        }, 1500);
+        }, 500);
     };
+
+    const busy = isGenerating || isProcessing;
 
     return (
         <div className="max-w-5xl mx-auto">
@@ -117,12 +138,16 @@ const ResumeBuilder = () => {
                             />
                         </div>
 
+                        <p className="text-[10px] text-muted-foreground flex items-center gap-1">
+                            <Wand2 size={10} /> Smart prompt processing — spelling and grammar auto-corrected
+                        </p>
+
                         <Button
                             onClick={handleGenerate}
-                            disabled={isGenerating}
+                            disabled={busy}
                             className="w-full bg-purple-600 hover:bg-purple-700 h-12 font-semibold mt-4"
                         >
-                            {isGenerating ? "Processing..." : "Generate Resume Preview"}
+                            {busy ? (isProcessing ? "Refining content..." : "Processing...") : "Generate Resume Preview"}
                         </Button>
                     </div>
                 </div>

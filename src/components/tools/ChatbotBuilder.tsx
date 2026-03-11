@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Bot, Send, User, Sparkles, MessageSquare, Trash2 } from "lucide-react";
+import { Bot, Send, User, Sparkles, MessageSquare, Trash2, Wand2 } from "lucide-react";
+import { usePromptProcessor } from "@/hooks/usePromptProcessor";
 
 interface Message {
     id: string;
@@ -22,6 +23,7 @@ const ChatbotBuilder = () => {
     const [inputValue, setInputValue] = useState("");
     const [isTyping, setIsTyping] = useState(false);
     const scrollRef = useRef<HTMLDivElement>(null);
+    const { processPrompt, isProcessing } = usePromptProcessor();
 
     useEffect(() => {
         if (scrollRef.current) {
@@ -29,25 +31,30 @@ const ChatbotBuilder = () => {
         }
     }, [messages, isTyping]);
 
-    const handleSend = () => {
-        if (!inputValue.trim()) return;
+    const handleSend = async () => {
+        if (!inputValue.trim() || isProcessing) return;
+
+        const originalInput = inputValue;
+        setInputValue("");
+
+        // Process prompt through AI refinement
+        const refinedInput = await processPrompt(originalInput, "AI chatbot conversation - user is chatting with an assistant");
 
         const userMessage: Message = {
             id: Date.now().toString(),
-            text: inputValue,
+            text: refinedInput,
             sender: "user",
             timestamp: new Date()
         };
 
         setMessages(prev => [...prev, userMessage]);
-        setInputValue("");
         setIsTyping(true);
 
         // Simulate AI Response
         setTimeout(() => {
             const aiResponse: Message = {
                 id: (Date.now() + 1).toString(),
-                text: getAIResponse(inputValue),
+                text: getAIResponse(refinedInput),
                 sender: "ai",
                 timestamp: new Date()
             };
@@ -74,6 +81,8 @@ const ChatbotBuilder = () => {
             }
         ]);
     };
+
+    const busy = isTyping || isProcessing;
 
     return (
         <div className="max-w-4xl mx-auto h-[700px] flex flex-col">
@@ -118,16 +127,22 @@ const ChatbotBuilder = () => {
                             </div>
                         </div>
                     ))}
-                    {isTyping && (
+                    {(isTyping || isProcessing) && (
                         <div className="flex justify-start">
                             <div className="flex gap-3">
                                 <div className="w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center shrink-0">
-                                    <Bot size={16} />
+                                    {isProcessing ? <Wand2 size={16} /> : <Bot size={16} />}
                                 </div>
-                                <div className="glass border-white/5 p-4 rounded-2xl flex items-center gap-1">
-                                    <span className="w-1.5 h-1.5 bg-primary/40 rounded-full animate-bounce [animation-delay:-0.3s]" />
-                                    <span className="w-1.5 h-1.5 bg-primary/40 rounded-full animate-bounce [animation-delay:-0.15s]" />
-                                    <span className="w-1.5 h-1.5 bg-primary/40 rounded-full animate-bounce" />
+                                <div className="glass border-white/5 p-4 rounded-2xl flex items-center gap-2">
+                                    {isProcessing ? (
+                                        <span className="text-xs text-muted-foreground animate-pulse">Refining your message...</span>
+                                    ) : (
+                                        <>
+                                            <span className="w-1.5 h-1.5 bg-primary/40 rounded-full animate-bounce [animation-delay:-0.3s]" />
+                                            <span className="w-1.5 h-1.5 bg-primary/40 rounded-full animate-bounce [animation-delay:-0.15s]" />
+                                            <span className="w-1.5 h-1.5 bg-primary/40 rounded-full animate-bounce" />
+                                        </>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -152,13 +167,13 @@ const ChatbotBuilder = () => {
                         <Button
                             type="submit"
                             className="h-14 w-14 rounded-xl bg-gradient-button flex items-center justify-center p-0 shadow-lg shadow-primary/20 hover:scale-105"
-                            disabled={!inputValue.trim() || isTyping}
+                            disabled={!inputValue.trim() || busy}
                         >
                             <Send size={20} className="text-white" />
                         </Button>
                     </form>
                     <div className="mt-3 flex items-center justify-center gap-2 text-[10px] text-muted-foreground uppercase font-bold tracking-widest">
-                        <Sparkles size={10} className="text-primary" /> AI SmartSyS NLP Core Engine v2.0
+                        <Sparkles size={10} className="text-primary" /> AI SmartSyS NLP Core Engine v2.0 · <Wand2 size={10} /> Smart Prompt Processing
                     </div>
                 </div>
             </div>
