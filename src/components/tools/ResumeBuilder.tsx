@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { FileText, Sparkles, Download, User, Briefcase, GraduationCap, Code, Wand2 } from "lucide-react";
+import { FileText, Sparkles, Download, User, Briefcase, GraduationCap, Code, Wand2, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 import { usePromptProcessor } from "@/hooks/usePromptProcessor";
+// @ts-ignore
+import html2pdf from "html2pdf.js";
 
 const ResumeBuilder = () => {
     const [form, setForm] = useState({
@@ -28,27 +30,60 @@ const ResumeBuilder = () => {
         }
         setIsGenerating(true);
 
-        // Process text fields through AI refinement
-        const [refinedSummary, refinedExperience, refinedEducation, refinedSkills] = await Promise.all([
-            form.summary ? processPrompt(form.summary, "professional resume summary section") : Promise.resolve(form.summary),
-            form.experience ? processPrompt(form.experience, "resume work experience section") : Promise.resolve(form.experience),
-            form.education ? processPrompt(form.education, "resume education section") : Promise.resolve(form.education),
-            form.skills ? processPrompt(form.skills, "resume skills list") : Promise.resolve(form.skills),
-        ]);
+        try {
+            // Process text fields through AI refinement with strict formatting instructions
+            const summaryContext = "You are an expert resume writer. Rewrite the following into a highly professional, compelling resume summary paragraph. OUTPUT ONLY the exact summary text. Do not include phrases like 'Here is your summary' or 'Please provide'.";
+            const experienceContext = "You are an expert resume writer. Convert the following work experience into professional resume bullet points. Use action verbs and highlight achievements. Output ONLY the bullet points, each starting with the '•' character. DO NOT include headers or conversational text.";
+            const educationContext = "Extract and strictly format the following education details for a professional resume (e.g., Degree - Institution). Output ONLY the formatted text.";
+            const skillsContext = "Format the following skills into a clean, comma-separated list of professional keywords. Output ONLY the list.";
 
-        const refined = {
-            ...form,
-            summary: refinedSummary,
-            experience: refinedExperience,
-            education: refinedEducation,
-            skills: refinedSkills,
+            const [refinedSummary, refinedExperience, refinedEducation, refinedSkills] = await Promise.all([
+                form.summary ? processPrompt(form.summary, summaryContext) : Promise.resolve(form.summary),
+                form.experience ? processPrompt(form.experience, experienceContext) : Promise.resolve(form.experience),
+                form.education ? processPrompt(form.education, educationContext) : Promise.resolve(form.education),
+                form.skills ? processPrompt(form.skills, skillsContext) : Promise.resolve(form.skills),
+            ]);
+
+            const refined = {
+                ...form,
+                summary: refinedSummary,
+                experience: refinedExperience,
+                education: refinedEducation,
+                skills: refinedSkills,
+            };
+
+            setResumeData(refined);
+            toast.success("Resume preview generated!");
+        } catch (error) {
+            console.error(error);
+            toast.error("Failed to generate resume.");
+        } finally {
+            setIsGenerating(false);
+        }
+    };
+
+    const downloadPDF = () => {
+        const element = document.getElementById("resume-preview-content");
+        if (!element || !resumeData) return;
+
+        const fileName = `resume-${resumeData.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}.pdf`;
+
+        const opt = {
+            margin: 10,
+            filename: fileName,
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2, useCORS: true },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
 
-        setTimeout(() => {
-            setResumeData(refined);
-            setIsGenerating(false);
-            toast.success("Resume preview generated!");
-        }, 500);
+        toast.promise(
+            html2pdf().set(opt).from(element).save(),
+            {
+                loading: 'Generating PDF...',
+                success: 'Resume downloaded successfully!',
+                error: 'Failed to generate PDF.'
+            }
+        );
     };
 
     const busy = isGenerating || isProcessing;
@@ -163,7 +198,7 @@ const ResumeBuilder = () => {
                         </div>
 
                         <p className="text-[10px] text-muted-foreground flex items-center gap-1">
-                            <Wand2 size={10} /> Smart prompt processing — spelling and grammar auto-corrected
+                            <Wand2 size={10} /> Smart AI formatting — inputs are automatically structured and refined
                         </p>
 
                         <Button
@@ -171,34 +206,47 @@ const ResumeBuilder = () => {
                             disabled={busy}
                             className="w-full bg-purple-600 hover:bg-purple-700 h-12 font-semibold mt-4"
                         >
-                            {busy ? (isProcessing ? "Refining content..." : "Processing...") : "Generate Resume"}
+                            {busy ? (
+                                <>
+                                    <RefreshCw size={18} className="mr-2 animate-spin" /> Generating Professional Resume...
+                                </>
+                            ) : (
+                                "Generate Resume"
+                            )}
                         </Button>
                     </div>
                 </div>
 
                 {/* Preview Area */}
-                <div className="glass border-white/5 min-h-[600px] rounded-3xl overflow-hidden flex flex-col">
-                    <div className="p-4 border-b border-white/5 bg-white/5 flex justify-between items-center">
+                <div className="glass border-white/5 min-h-[600px] rounded-3xl overflow-hidden flex flex-col relative">
+                    <div className="p-4 border-b border-white/5 bg-white/5 flex justify-between items-center z-10">
                         <span className="text-sm font-medium text-muted-foreground tracking-widest uppercase">Preview</span>
-                        {resumeData && (
-                            <Button variant="ghost" size="sm" className="text-xs h-8">
+                        {resumeData && !busy && (
+                            <Button variant="ghost" size="sm" className="text-xs h-8" onClick={downloadPDF}>
                                 <Download size={14} className="mr-2" /> Download PDF
                             </Button>
                         )}
                     </div>
 
-                    <div className="flex-1 p-8 bg-white/5 m-4 rounded-2xl overflow-y-auto">
-                        {!resumeData ? (
+                    <div className="flex-1 p-8 bg-white/5 m-4 rounded-2xl overflow-y-auto relative">
+                        {busy ? (
+                            <div className="absolute inset-0 z-20 bg-background/50 backdrop-blur-sm flex flex-col items-center justify-center rounded-2xl">
+                                <RefreshCw size={32} className="animate-spin text-purple-500 mb-4" />
+                                <p className="font-medium animate-pulse">Structuring your professional resume...</p>
+                            </div>
+                        ) : null}
+
+                        {!resumeData && !busy ? (
                             <div className="h-full flex flex-col items-center justify-center text-center opacity-30">
                                 <FileText size={48} className="mb-4" />
                                 <p>Enter your details and click generate to see the preview.</p>
                             </div>
-                        ) : (
-                            <div className="animate-fade-in text-slate-200">
-                                <div className="border-b-2 border-purple-500/30 pb-6 mb-8 text-center">
-                                    <h1 className="text-4xl font-bold mb-2 tracking-tight">{resumeData.name}</h1>
-                                    <p className="text-xl text-purple-400 font-medium mb-3">{resumeData.jobTitle}</p>
-                                    <div className="flex justify-center flex-wrap gap-4 text-sm text-slate-400">
+                        ) : resumeData ? (
+                            <div className="animate-fade-in text-slate-800 bg-white p-8 rounded-xl shadow-sm min-h-full" id="resume-preview-content">
+                                <div className="border-b-2 border-slate-200 pb-6 mb-8 text-center">
+                                    <h1 className="text-4xl font-bold mb-2 tracking-tight text-slate-900">{resumeData.name}</h1>
+                                    <p className="text-xl text-purple-600 font-medium mb-3">{resumeData.jobTitle}</p>
+                                    <div className="flex justify-center flex-wrap gap-4 text-sm text-slate-500 font-medium">
                                         <span>{resumeData.email}</span>
                                         {resumeData.phone && (
                                             <>
@@ -211,34 +259,40 @@ const ResumeBuilder = () => {
 
                                 {resumeData.summary && (
                                     <section className="mb-8">
-                                        <h3 className="text-xs font-bold uppercase tracking-widest text-purple-400 mb-3">Professional Summary</h3>
-                                        <p className="text-sm leading-relaxed whitespace-pre-line">{resumeData.summary}</p>
+                                        <h3 className="text-sm font-bold uppercase tracking-widest text-slate-900 mb-3 border-b border-slate-200 pb-1">Professional Summary</h3>
+                                        <p className="text-sm leading-relaxed whitespace-pre-line text-slate-700">{resumeData.summary}</p>
                                     </section>
                                 )}
 
                                 {resumeData.experience && (
                                     <section className="mb-8">
-                                        <h3 className="text-xs font-bold uppercase tracking-widest text-purple-400 mb-3">Work Experience</h3>
-                                        <p className="text-sm leading-relaxed whitespace-pre-line">{resumeData.experience}</p>
+                                        <h3 className="text-sm font-bold uppercase tracking-widest text-slate-900 mb-3 border-b border-slate-200 pb-1">Work Experience</h3>
+                                        <div className="text-sm leading-relaxed whitespace-pre-line text-slate-700 ml-4 max-w-full">
+                                            {resumeData.experience.split('\n').map((line, idx) => (
+                                                <div key={idx} className={`${line.trim().startsWith('•') || line.trim().startsWith('-') ? 'flex gap-2' : ''} mb-2`}>
+                                                    {line.trim()}
+                                                </div>
+                                            ))}
+                                        </div>
                                     </section>
                                 )}
 
                                 <div className="grid grid-cols-2 gap-8">
                                     {resumeData.education && (
                                         <section>
-                                            <h3 className="text-xs font-bold uppercase tracking-widest text-purple-400 mb-3">Education</h3>
-                                            <p className="text-sm leading-relaxed whitespace-pre-line">{resumeData.education}</p>
+                                            <h3 className="text-sm font-bold uppercase tracking-widest text-slate-900 mb-3 border-b border-slate-200 pb-1">Education</h3>
+                                            <p className="text-sm leading-relaxed whitespace-pre-line text-slate-700">{resumeData.education}</p>
                                         </section>
                                     )}
                                     {resumeData.skills && (
                                         <section>
-                                            <h3 className="text-xs font-bold uppercase tracking-widest text-purple-400 mb-3">Skills</h3>
-                                            <p className="text-sm leading-relaxed whitespace-pre-line">{resumeData.skills}</p>
+                                            <h3 className="text-sm font-bold uppercase tracking-widest text-slate-900 mb-3 border-b border-slate-200 pb-1">Skills</h3>
+                                            <p className="text-sm leading-relaxed whitespace-pre-line text-slate-700">{resumeData.skills}</p>
                                         </section>
                                     )}
                                 </div>
                             </div>
-                        )}
+                        ) : null}
                     </div>
                 </div>
             </div>
