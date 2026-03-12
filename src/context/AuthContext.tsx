@@ -14,29 +14,49 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+import { supabase } from "@/integrations/supabase/client";
+
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [user, setUser] = useState<User | null>(null);
 
     useEffect(() => {
-        const storedUser = localStorage.getItem("user");
-        if (storedUser) {
-            setUser(JSON.parse(storedUser));
-            setIsAuthenticated(true);
-        }
+        // Initial session check
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            if (session?.user) {
+                setUser({ email: session.user.email || '', name: session.user.user_metadata?.name || session.user.email?.split("@")[0] });
+                setIsAuthenticated(true);
+            } else {
+                setUser(null);
+                setIsAuthenticated(false);
+            }
+        });
+
+        // Listen for auth changes
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+            if (session?.user) {
+                setUser({ email: session.user.email || '', name: session.user.user_metadata?.name || session.user.email?.split("@")[0] });
+                setIsAuthenticated(true);
+            } else {
+                setUser(null);
+                setIsAuthenticated(false);
+            }
+        });
+
+        return () => subscription.unsubscribe();
     }, []);
 
     const login = (email: string, name?: string) => {
+        // Kept for signature compatibility, but actual login process is handled in the modal calling supabase directly 
         const newUser = { email, name: name || email.split("@")[0] };
         setUser(newUser);
         setIsAuthenticated(true);
-        localStorage.setItem("user", JSON.stringify(newUser));
     };
 
-    const logout = () => {
+    const logout = async () => {
+        await supabase.auth.signOut();
         setUser(null);
         setIsAuthenticated(false);
-        localStorage.removeItem("user");
     };
 
     return (

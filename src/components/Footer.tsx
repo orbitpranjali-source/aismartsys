@@ -3,12 +3,12 @@ import aiLogo from "@/assets/ai-logo.jpg";
 
 const quickLinks = ["Home", "Services", "Products", "Portfolio", "FAQ", "Contact"];
 const serviceLinks = [
-  { name: "AI Development", ref: "ai-development" },
-  { name: "Web Development", ref: "web-development" },
-  { name: "Automation", ref: "automation-solutions" },
-  { name: "Chatbot Development", ref: "ai-chatbot" },
-  { name: "Data Analytics", ref: "data-analytics" },
-  { name: "Mobile Apps", ref: "mobile-apps" }
+  { name: "AI Development", ref: "customised-software" },
+  { name: "Web Development", ref: "website-development" },
+  { name: "Automation", ref: "scada" },
+  { name: "Chatbot Development", ref: "chatbot" },
+  { name: "Data Analytics", ref: "seo" },
+  { name: "Mobile Apps", ref: "app-development" }
 ];
 
 const Footer = () => (

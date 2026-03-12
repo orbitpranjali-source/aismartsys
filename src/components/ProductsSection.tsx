@@ -1,4 +1,4 @@
-import { Type, FileText, Image, Bot, ShoppingCart, Cpu } from "lucide-react";
+import { Type, FileText, Bot, ShoppingCart, Cpu, Server } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SectionHeader from "./SectionHeader";
 import { GlowOrb } from "./TechPattern";
@@ -7,7 +7,7 @@ import { ArrowRight } from "lucide-react";
 
 import imgCaption from "@/assets/images/caption - generator.jpg";
 import imgResume from "@/assets/images/resume - builder.png";
-import imgImage from "@/assets/images/image - builder.png";
+import imgCloudServer from "@/assets/images/cloud server.png";
 import imgChatbot from "@/assets/images/chatboat.png";
 import productEcommerce from "@/assets/images/product-ecommerce.jpg";
 import productScada from "@/assets/images/product-scada.jpg";
@@ -35,12 +35,12 @@ const products = [
     image: imgResume
   },
   {
-    id: "image",
-    icon: Image,
-    title: "AI Image Generator",
-    desc: "Transform text prompts into stunning visuals with advanced image generation.",
+    id: "cloud-server",
+    icon: Server,
+    title: "Cloud Server Management",
+    desc: "Deploy, manage and scale your applications on secure and high-performance cloud servers with reliable uptime and infrastructure support.",
     glow: "glow-cyan",
-    image: imgImage
+    image: imgCloudServer
   },
   {
     id: "chatbot",
@@ -95,6 +95,7 @@ const ProductsSection = () => {
           {products.map((p, i) => (
             <div
               key={p.title}
+              id={p.id}
               className={`group premium-card transition-all duration-500 overflow-hidden ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 }`}
               style={getDelay(i)}
