@@ -1,13 +1,17 @@
-import { Type, FileText, Image, Bot } from "lucide-react";
+import { Type, FileText, Image, Bot, ShoppingCart, Cpu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SectionHeader from "./SectionHeader";
 import { GlowOrb } from "./TechPattern";
 import { useStaggerReveal } from "@/hooks/useScrollReveal";
 import { ArrowRight } from "lucide-react";
-import heroNeural from "@/assets/images/hero-neural.png";
-import heroBrain from "@/assets/images/hero-brain.png";
-import heroAutomation from "@/assets/images/hero-automation.png";
-import heroData from "@/assets/images/hero-data.png";
+
+import imgCaption from "@/assets/images/caption - generator.jpg";
+import imgResume from "@/assets/images/resume - builder.png";
+import imgImage from "@/assets/images/image - builder.png";
+import imgChatbot from "@/assets/images/chatboat.png";
+import productEcommerce from "@/assets/images/product-ecommerce.jpg";
+import productScada from "@/assets/images/product-scada.jpg";
+
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -20,7 +24,7 @@ const products = [
     title: "AI Caption Generator",
     desc: "Generate engaging social media captions instantly with AI-powered creativity.",
     glow: "glow-blue",
-    image: heroNeural
+    image: imgCaption
   },
   {
     id: "resume",
@@ -28,7 +32,7 @@ const products = [
     title: "AI Resume Builder",
     desc: "Create professional, ATS-optimized resumes in minutes with smart AI assistance.",
     glow: "glow-purple",
-    image: heroBrain
+    image: imgResume
   },
   {
     id: "image",
@@ -36,7 +40,7 @@ const products = [
     title: "AI Image Generator",
     desc: "Transform text prompts into stunning visuals with advanced image generation.",
     glow: "glow-cyan",
-    image: heroData
+    image: imgImage
   },
   {
     id: "chatbot",
@@ -44,8 +48,24 @@ const products = [
     title: "AI Chatbot Builder",
     desc: "Build and deploy intelligent chatbots without code for any platform.",
     glow: "glow-blue",
-    image: heroAutomation
+    image: imgChatbot
   },
+  {
+    id: "ecommerce",
+    icon: ShoppingCart,
+    title: "E-commerce Solutions",
+    desc: "Comprehensive e-commerce platforms designed to drive sales and enhance customer experience.",
+    glow: "glow-purple",
+    image: productEcommerce
+  },
+  {
+    id: "scada",
+    icon: Cpu,
+    title: "SCADA Solutions",
+    desc: "Advanced supervisory control and data acquisition systems for industrial automation.",
+    glow: "glow-cyan",
+    image: productScada
+  }
 ];
 
 const ProductsSection = () => {
@@ -71,7 +91,7 @@ const ProductsSection = () => {
 
       <div className="container mx-auto relative z-10" ref={ref}>
         <SectionHeader badge="Our Products" title="AI-Powered Products" description="Ready-to-use AI tools designed to boost productivity and creativity." />
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {products.map((p, i) => (
             <div
               key={p.title}
@@ -79,14 +99,22 @@ const ProductsSection = () => {
                 }`}
               style={getDelay(i)}
             >
-              <div className="h-32 bg-muted/30 relative overflow-hidden">
+              <div className="aspect-video bg-muted/30 relative overflow-hidden">
+                {/* Blurred background to fill the space for portrait images */}
+                <img
+                  src={p.image}
+                  alt=""
+                  className="absolute inset-0 w-full h-full object-cover blur-xl opacity-40 scale-110"
+                />
+                {/* Actual image contained within the frame */}
                 <img
                   src={p.image}
                   alt={p.title}
-                  className="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity"
+                  className="relative z-0 w-full h-full object-contain object-center group-hover:scale-105 transition-transform duration-700 drop-shadow-2xl"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent opacity-60" />
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className={`w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 group-hover:bg-gradient-button group-hover:text-secondary-foreground transition-all duration-500 group-hover:${p.glow}`}>
+                  <div className={`w-12 h-12 rounded-xl bg-background/60 backdrop-blur-sm flex items-center justify-center text-primary border border-primary/20 group-hover:scale-110 group-hover:bg-gradient-button group-hover:text-secondary-foreground group-hover:border-transparent transition-all duration-500 group-hover:${p.glow}`}>
                     <p.icon size={24} />
                   </div>
                 </div>

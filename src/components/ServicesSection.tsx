@@ -1,10 +1,13 @@
-import { Brain, Globe, Zap, MessageSquare, BarChart3, Smartphone } from "lucide-react";
-import serviceAi from "@/assets/images/service-ai.png";
-import serviceChatbot from "@/assets/images/service-chatbot.png";
-import heroNeural from "@/assets/images/hero-neural.png";
-import heroData from "@/assets/images/hero-data.png";
-import heroAutomation from "@/assets/images/hero-automation.png";
-import heroBrain from "@/assets/images/hero-brain.png";
+import { PenTool, Globe, Server, MessageSquare, Smartphone, Code, Search, Cloud, Zap } from "lucide-react";
+import serviceWebDesigning from "@/assets/images/service-web-designing.png";
+import serviceWebDevelopment from "@/assets/images/service-web-development.png";
+import serviceDomain from "@/assets/images/service-domain.png";
+import serviceSms from "@/assets/images/service-sms.png";
+import serviceApp from "@/assets/images/service-app.png";
+import serviceSoftware from "@/assets/images/service-software.png";
+import serviceSeo from "@/assets/images/service-seo.jpg";
+import serviceHosting from "@/assets/images/service-hosting.jpg";
+
 import SectionHeader from "./SectionHeader";
 import { GlowOrb } from "./TechPattern";
 import { useStaggerReveal } from "@/hooks/useScrollReveal";
@@ -15,46 +18,60 @@ import AuthModal from "./AuthModal";
 
 const services = [
   {
-    ref: "ai-development",
-    icon: Brain,
-    title: "AI Development",
-    desc: "Custom AI models and intelligent systems tailored to your business needs.",
-    image: serviceAi
+    ref: "website-designing",
+    icon: PenTool,
+    title: "Website Designing",
+    desc: "Create visually stunning and user-friendly website designs that captivate your audience.",
+    image: serviceWebDesigning
   },
   {
-    ref: "web-development",
+    ref: "website-development",
     icon: Globe,
-    title: "Web Development",
-    desc: "Modern, responsive web applications with cutting-edge technologies.",
-    image: heroNeural
+    title: "Website Development",
+    desc: "Build robust, scalable, and responsive websites tailored to your business needs.",
+    image: serviceWebDevelopment
   },
   {
-    ref: "automation-solutions",
-    icon: Zap,
-    title: "Automation Solutions",
-    desc: "Streamline workflows with AI-powered automation and process optimization.",
-    image: heroAutomation
+    ref: "domain-registration",
+    icon: Server,
+    title: "Domain Registration",
+    desc: "Secure your unique digital identity with quick and easy domain registration services.",
+    image: serviceDomain
   },
   {
-    ref: "ai-chatbot",
+    ref: "bulk-sms",
     icon: MessageSquare,
-    title: "AI Chatbot",
-    desc: "Intelligent conversational AI bots for customer engagement.",
-    image: serviceChatbot
+    title: "Bulk SMS Services",
+    desc: "Reach your audience instantly with reliable and efficient bulk SMS solutions.",
+    image: serviceSms
   },
   {
-    ref: "data-analytics",
-    icon: BarChart3,
-    title: "Data Analytics",
-    desc: "Transform raw data into actionable insights with advanced analytics.",
-    image: heroData
-  },
-  {
-    ref: "mobile-apps",
+    ref: "app-development",
     icon: Smartphone,
-    title: "Mobile Apps",
-    desc: "Cross-platform mobile apps with seamless user experiences.",
-    image: heroBrain
+    title: "App Development",
+    desc: "Develop high-performance mobile applications for seamless user experiences.",
+    image: serviceApp
+  },
+  {
+    ref: "customised-software",
+    icon: Code,
+    title: "Customised Software Development",
+    desc: "Get bespoke software solutions designed to optimize your unique business operations.",
+    image: serviceSoftware
+  },
+  {
+    ref: "seo",
+    icon: Search,
+    title: "Search Engine Optimisation (SEO)",
+    desc: "Improve your search rankings and drive organic traffic to your website.",
+    image: serviceSeo
+  },
+  {
+    ref: "hosting",
+    icon: Cloud,
+    title: "Hosting",
+    desc: "Ensure maximum uptime and performance with our secure web hosting services.",
+    image: serviceHosting
   },
 ];
 
@@ -89,7 +106,7 @@ const ServicesSection = () => {
 
       <div className="container mx-auto relative z-10" ref={ref}>
         <SectionHeader badge="Our Services" title="What We Offer" description="Empowering businesses with intelligent solutions across AI, web, and mobile." />
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {services.map((s, i) => (
             <div
               key={s.title}
@@ -99,23 +116,22 @@ const ServicesSection = () => {
                 }`}
               style={getDelay(i)}
             >
-              <div className="h-40 overflow-hidden relative">
+              <div className="aspect-video bg-muted/30 relative overflow-hidden">
                 <img
                   src={s.image}
                   alt={s.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  className="w-full h-full object-cover object-center opacity-40 group-hover:opacity-60 transition-opacity"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-60" />
-                <div className="absolute bottom-4 left-6">
-                  <div className="w-12 h-12 rounded-xl glass flex items-center justify-center text-accent">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 group-hover:bg-gradient-button group-hover:text-secondary-foreground transition-all duration-500">
                     <s.icon size={24} />
                   </div>
                 </div>
               </div>
-              <div className="p-8 pt-6">
-                <h3 className="font-heading font-semibold text-lg text-foreground mb-3">{s.title}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">{s.desc}</p>
-                <div className="mt-6 flex items-center text-primary text-xs font-bold uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="p-6 text-center">
+                <h3 className="font-heading font-semibold text-foreground mb-3">{s.title}</h3>
+                <p className="text-muted-foreground text-xs mb-6 leading-relaxed line-clamp-2">{s.desc}</p>
+                <div className="flex justify-center items-center text-primary text-xs font-bold uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">
                   Learn More <Zap size={12} className="ml-1" />
                 </div>
               </div>

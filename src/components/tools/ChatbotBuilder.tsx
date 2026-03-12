@@ -1,209 +1,53 @@
-import React, { useState, useRef, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Bot, Send, User, Sparkles, MessageSquare, Trash2, Wand2 } from "lucide-react";
-import { usePromptProcessor } from "@/hooks/usePromptProcessor";
-
-interface Message {
-    id: string;
-    text: string;
-    sender: "user" | "ai";
-    timestamp: Date;
-}
+import React from "react";
+import { Bot, MessageSquare, Wand2, Zap } from "lucide-react";
 
 const ChatbotBuilder = () => {
-    const [messages, setMessages] = useState<Message[]>([
-        {
-            id: "1",
-            text: "Hello! I'm your AI assistant. How can I help you today?",
-            sender: "ai",
-            timestamp: new Date()
-        }
-    ]);
-    const [inputValue, setInputValue] = useState("");
-    const [isTyping, setIsTyping] = useState(false);
-    const scrollRef = useRef<HTMLDivElement>(null);
-    const { processPrompt, isProcessing } = usePromptProcessor();
-
-    useEffect(() => {
-        if (scrollRef.current) {
-            scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-        }
-    }, [messages, isTyping]);
-
-    const handleSend = async () => {
-        if (!inputValue.trim() || isProcessing) return;
-
-        const originalInput = inputValue;
-        setInputValue("");
-
-        // Process prompt through AI refinement
-        const refinedInput = await processPrompt(originalInput, "AI chatbot conversation - user is chatting with an assistant");
-
-        const userMessage: Message = {
-            id: Date.now().toString(),
-            text: refinedInput,
-            sender: "user",
-            timestamp: new Date()
-        };
-
-        setMessages(prev => [...prev, userMessage]);
-        setIsTyping(true);
-
-        // Simulate AI Response
-        setTimeout(() => {
-            const aiResponse: Message = {
-                id: (Date.now() + 1).toString(),
-                text: getAIResponse(refinedInput),
-                sender: "ai",
-                timestamp: new Date()
-            };
-            setMessages(prev => [...prev, aiResponse]);
-            setIsTyping(false);
-        }, 1500);
-    };
-
-    const getAIResponse = (input: string) => {
-        const lowInput = input.toLowerCase();
-
-        if (lowInput.includes("hello") || lowInput.includes("hi") || lowInput.includes("hey")) {
-            return "Hello there! How can I assist you with your AI journey today?";
-        }
-        if (lowInput.includes("price") || lowInput.includes("cost") || lowInput.includes("pricing")) {
-            return "Our AI SmartSyS subscription starts at $29/month. We also have enterprise plans starting at $99/month. Would you like to see the full pricing list?";
-        }
-        if (lowInput.includes("portfolio") || lowInput.includes("projects") || lowInput.includes("work")) {
-            return "We've worked with top companies creating scalable AI automation. You can check our recent projects in the Portfolio section of the landing page!";
-        }
-        if (lowInput.includes("code") || lowInput.includes("programming") || lowInput.includes("dev")) {
-            return "I can help you review code, write basic functions, or suggest architectural improvements. What language are you working in?";
-        }
-        if (lowInput.includes("who are you") || lowInput.includes("what are you") || lowInput.includes("your name")) {
-            return "I am the SmartSyS Virtual Assistant, an AI designed to help you brainstorm ideas, automate tasks, and get things done faster.";
-        }
-        if (lowInput.includes("help") || lowInput.includes("support") || lowInput.includes("issue")) {
-            return "I'm here to help! Please describe the issue you're facing or what you need assistance with.";
-        }
-        if (lowInput.includes("thank")) {
-            return "You're very welcome! Let me know if you need anything else.";
-        }
-
-        const genericResponses = [
-            "That's an interesting question. Let me process that for a moment...",
-            "As an AI from SmartSyS, I'm constantly learning. From what I understand, we should look into optimizing this process.",
-            "I hear you. Perhaps we could approach this from a different angle to achieve better results.",
-            "Absolutely! AI integration here could streamline that workflow by at least 40%.",
-            "This sounds like a great use case for our machine learning capabilities. Would you like me to elaborate?"
-        ];
-
-        return genericResponses[Math.floor(Math.random() * genericResponses.length)];
-    };
-
-    const clearChat = () => {
-        setMessages([
-            {
-                id: "1",
-                text: "Chat cleared. How else can I assist you?",
-                sender: "ai",
-                timestamp: new Date()
-            }
-        ]);
-    };
-
-    const busy = isTyping || isProcessing;
-
     return (
-        <div className="max-w-4xl mx-auto h-[700px] flex flex-col">
-            <div className="premium-card flex-1 flex flex-col overflow-hidden">
-                {/* Chat Header */}
-                <div className="p-6 border-b border-white/5 bg-white/5 flex justify-between items-center">
-                    <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                            <Bot size={20} />
-                        </div>
-                        <div>
-                            <h3 className="font-heading font-bold text-lg">Smart Assistant</h3>
-                            <div className="flex items-center gap-2">
-                                <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                                <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">Online</span>
-                            </div>
-                        </div>
+        <div className="max-w-4xl mx-auto">
+            <div className="premium-card p-8 mb-8">
+                <div className="flex items-center gap-4 mb-6">
+                    <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-500">
+                        <Bot size={24} />
                     </div>
-                    <Button variant="ghost" size="icon" onClick={clearChat} className="text-muted-foreground hover:text-red-400">
-                        <Trash2 size={18} />
-                    </Button>
-                </div>
-
-                {/* Messages Area */}
-                <div ref={scrollRef} className="flex-1 overflow-y-auto p-6 space-y-6 scrollbar-thin scrollbar-thumb-white/10">
-                    {messages.map((msg) => (
-                        <div key={msg.id} className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}>
-                            <div className={`flex gap-3 max-w-[80%] ${msg.sender === "user" ? "flex-row-reverse" : "flex-row"}`}>
-                                <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${msg.sender === "user" ? "bg-accent/20 text-accent" : "bg-primary/20 text-primary"
-                                    }`}>
-                                    {msg.sender === "user" ? <User size={16} /> : <Bot size={16} />}
-                                </div>
-                                <div className={`p-4 rounded-2xl ${msg.sender === "user"
-                                    ? "bg-gradient-primary text-white rounded-tr-none"
-                                    : "glass border-white/5 text-foreground rounded-tl-none"
-                                    }`}>
-                                    <p className="text-sm leading-relaxed">{msg.text}</p>
-                                    <p className="text-[10px] mt-2 opacity-50 font-medium">
-                                        {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                    {(isTyping || isProcessing) && (
-                        <div className="flex justify-start">
-                            <div className="flex gap-3">
-                                <div className="w-8 h-8 rounded-full bg-primary/20 text-primary flex items-center justify-center shrink-0">
-                                    {isProcessing ? <Wand2 size={16} /> : <Bot size={16} />}
-                                </div>
-                                <div className="glass border-white/5 p-4 rounded-2xl flex items-center gap-2">
-                                    {isProcessing ? (
-                                        <span className="text-xs text-muted-foreground animate-pulse">Refining your message...</span>
-                                    ) : (
-                                        <>
-                                            <span className="w-1.5 h-1.5 bg-primary/40 rounded-full animate-bounce [animation-delay:-0.3s]" />
-                                            <span className="w-1.5 h-1.5 bg-primary/40 rounded-full animate-bounce [animation-delay:-0.15s]" />
-                                            <span className="w-1.5 h-1.5 bg-primary/40 rounded-full animate-bounce" />
-                                        </>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-                    )}
-                </div>
-
-                {/* Input Area */}
-                <div className="p-6 border-t border-white/5 bg-white/5">
-                    <form
-                        onSubmit={(e) => { e.preventDefault(); handleSend(); }}
-                        className="relative flex items-center gap-3"
-                    >
-                        <div className="relative flex-1">
-                            <MessageSquare size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground" />
-                            <Input
-                                placeholder="Ask me anything..."
-                                value={inputValue}
-                                onChange={(e) => setInputValue(e.target.value)}
-                                className="bg-background/40 border-white/5 h-14 pl-12 pr-4 rounded-xl focus:ring-primary/20"
-                            />
-                        </div>
-                        <Button
-                            type="submit"
-                            className="h-14 w-14 rounded-xl bg-gradient-button flex items-center justify-center p-0 shadow-lg shadow-primary/20 hover:scale-105"
-                            disabled={!inputValue.trim() || busy}
-                        >
-                            <Send size={20} className="text-white" />
-                        </Button>
-                    </form>
-                    <div className="mt-3 flex items-center justify-center gap-2 text-[10px] text-muted-foreground uppercase font-bold tracking-widest">
-                        <Sparkles size={10} className="text-primary" /> AI SmartSyS NLP Core Engine v2.0 · <Wand2 size={10} /> Smart Prompt Processing
+                    <div>
+                        <h2 className="text-2xl font-heading font-bold">AI Chatbot Builder</h2>
+                        <p className="text-muted-foreground text-sm">Build and deploy intelligent chatbots without code.</p>
                     </div>
                 </div>
+
+                <div className="space-y-6">
+                    <p className="text-foreground leading-relaxed">
+                        Design conversational AI agents tailored to your business needs. Our Chatbot Builder utilizes advanced NLP engines to understand user intent, context, and sentiment, providing accurate and human-like interactions without requiring any programming knowledge.
+                    </p>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
+                        <div className="glass border-white/5 p-4 rounded-2xl flex flex-col gap-2">
+                            <MessageSquare size={20} className="text-blue-500" />
+                            <h3 className="font-heading font-semibold text-sm">Natural Language</h3>
+                            <p className="text-xs text-muted-foreground">Advanced NLP understanding for highly natural conversation flows.</p>
+                        </div>
+                        <div className="glass border-white/5 p-4 rounded-2xl flex flex-col gap-2">
+                            <Wand2 size={20} className="text-blue-500" />
+                            <h3 className="font-heading font-semibold text-sm">No-Code Setup</h3>
+                            <p className="text-xs text-muted-foreground">Easily train and deploy bots completely code-free.</p>
+                        </div>
+                        <div className="glass border-white/5 p-4 rounded-2xl flex flex-col gap-2">
+                            <Zap size={20} className="text-blue-500" />
+                            <h3 className="font-heading font-semibold text-sm">Instant Integration</h3>
+                            <p className="text-xs text-muted-foreground">Seamlessly connect with your existing platforms and workflows.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div className="glass border-white/5 rounded-3xl overflow-hidden p-6 bg-black/20 text-center flex flex-col items-center justify-center min-h-[300px]">
+                <div className="w-16 h-16 rounded-full bg-blue-500/20 flex items-center justify-center mb-4">
+                    <Bot size={32} className="text-blue-400" />
+                </div>
+                <h3 className="text-xl font-heading font-bold mb-2">Showcase Mode</h3>
+                <p className="text-muted-foreground max-w-md mx-auto">
+                    This interface serves as a feature preview. The complete interactive chatbot building platform is available in our premium enterprise packages.
+                </p>
             </div>
         </div>
     );
