@@ -36,11 +36,14 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess }) => 
         onClose();
     };
 
-    const handleGoogleAuth = () => {
-        login("demo@google.com", "Demo User");
-        toast.success("Signed in with Google!");
-        onSuccess?.();
-        onClose();
+    const handleGoogleAuth = async () => {
+        const { lovable } = await import("@/integrations/lovable/index");
+        const { error } = await lovable.auth.signInWithOAuth("google", {
+            redirect_uri: window.location.origin,
+        });
+        if (error) {
+            toast.error("Google sign-in failed. Please try again.");
+        }
     };
 
     return (
