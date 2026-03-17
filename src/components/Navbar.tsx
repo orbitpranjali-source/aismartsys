@@ -9,6 +9,7 @@ import { useTheme } from "@/context/ThemeContext";
 
 const navLinks = [
   { label: "Home", href: "/#home" },
+  { label: "About", href: "/about" },
   { label: "Services", href: "/#services" },
   { label: "Products", href: "/#products" },
   { label: "Portfolio", href: "/#portfolio" },
@@ -29,9 +30,18 @@ const Navbar = () => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
 
-      const sections = navLinks.map((l) => l.href.split("#")[1]);
+      if (window.location.pathname === "/about") {
+        setActiveSection("/about");
+        return;
+      }
+
+      const sections = navLinks
+        .map((l) => l.href.includes("#") ? l.href.split("#")[1] : null)
+        .filter(Boolean);
+        
       let current = "home";
       for (const id of sections) {
+        if (!id) continue;
         const el = document.getElementById(id);
         if (el && el.getBoundingClientRect().top <= 120) {
           current = id;
@@ -40,9 +50,10 @@ const Navbar = () => {
       setActiveSection(`#${current}`);
     };
 
+    handleScroll(); // Initial check
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [window.location.pathname]);
 
   const handleAuthAction = () => {
     if (isAuthenticated) {
@@ -73,7 +84,7 @@ const Navbar = () => {
             <a
               key={link.href}
               href={link.href}
-              className={`relative px-4 py-2 text-sm font-medium rounded-full transition-all duration-300 ${activeSection === link.href.split("/")[1]
+              className={`relative px-4 py-2 text-sm font-medium rounded-full transition-all duration-300 ${activeSection === link.href || (link.href.includes("#") && activeSection === "#" + link.href.split("#")[1])
                 ? "bg-gradient-nav-pill text-secondary-foreground shadow-md shadow-primary/25 scale-[1.02]"
                 : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
                 }`}
@@ -123,7 +134,7 @@ const Navbar = () => {
                 key={link.href}
                 href={link.href}
                 onClick={() => setIsOpen(false)}
-                className={`px-4 py-3 text-sm font-medium rounded-xl transition-all duration-300 ${activeSection === link.href.split("/")[1]
+                className={`px-4 py-3 text-sm font-medium rounded-xl transition-all duration-300 ${activeSection === link.href || (link.href.includes("#") && activeSection === "#" + link.href.split("#")[1])
                   ? "bg-gradient-nav-pill text-secondary-foreground shadow-md"
                   : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                   }`}

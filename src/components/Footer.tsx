@@ -1,7 +1,15 @@
 import { Github, Linkedin, Twitter, Instagram } from "lucide-react";
 import aiLogo from "@/assets/ai-logo.jpg";
 
-const quickLinks = ["Home", "Services", "Products", "Portfolio", "FAQ", "Contact"];
+const quickLinks = [
+  { name: "Home", href: "/#home" },
+  { name: "About", href: "/about" },
+  { name: "Services", href: "/#services" },
+  { name: "Products", href: "/#products" },
+  { name: "Portfolio", href: "/#portfolio" },
+  { name: "FAQ", href: "/#faq" },
+  { name: "Contact", href: "/#contact" },
+];
 const serviceLinks = [
   { name: "AI Development", ref: "customised-software" },
   { name: "Web Development", ref: "website-development" },
@@ -43,10 +51,10 @@ const Footer = () => (
           <h4 className="font-heading font-semibold mb-6 text-sm uppercase tracking-widest text-foreground">Explore</h4>
           <ul className="space-y-4">
             {quickLinks.map((link) => (
-              <li key={link}>
-                <a href={`#${link.toLowerCase()}`} className="text-muted-foreground hover:text-accent text-sm transition-all duration-300 flex items-center group">
+              <li key={link.name}>
+                <a href={link.href} className="text-muted-foreground hover:text-accent text-sm transition-all duration-300 flex items-center group">
                   <span className="w-0 group-hover:w-2 h-px bg-accent mr-0 group-hover:mr-2 transition-all duration-300" />
-                  {link}
+                  {link.name}
                 </a>
               </li>
             ))}
