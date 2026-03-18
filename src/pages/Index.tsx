@@ -10,6 +10,7 @@ import TestimonialsSection from "@/components/TestimonialsSection";
 import FAQSection from "@/components/FAQSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
+import AboutSection from "@/components/AboutSection";
 
 const Index = () => {
   useEffect(() => {
@@ -35,7 +36,8 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       <Navbar />
-      <div className="reveal-on-scroll"><HeroSection /></div>
+      <div id="home"><HeroSection /></div>
+      <div id="about" className="reveal-on-scroll"><AboutSection /></div>
       <div className="reveal-on-scroll"><ServicesSection /></div>
       <div className="reveal-on-scroll"><ProductsSection /></div>
       <div className="reveal-on-scroll"><WhyChooseUs /></div>

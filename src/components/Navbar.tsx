@@ -9,7 +9,7 @@ import { useTheme } from "@/context/ThemeContext";
 
 const navLinks = [
   { label: "Home", href: "/#home" },
-  { label: "About", href: "/about" },
+  { label: "About", href: "/#about" },
   { label: "Services", href: "/#services" },
   { label: "Products", href: "/#products" },
   { label: "Portfolio", href: "/#portfolio" },
@@ -29,11 +29,6 @@ const Navbar = () => {
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
-
-      if (window.location.pathname === "/about") {
-        setActiveSection("/about");
-        return;
-      }
 
       const sections = navLinks
         .map((l) => l.href.includes("#") ? l.href.split("#")[1] : null)
