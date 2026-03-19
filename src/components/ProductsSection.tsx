@@ -5,9 +5,9 @@ import { GlowOrb } from "./TechPattern";
 import { useStaggerReveal } from "@/hooks/useScrollReveal";
 import { ArrowRight } from "lucide-react";
 
-import imgCaption from "@/assets/images/caption - generator.jpg";
-import imgResume from "@/assets/images/resume - builder.png";
-import imgCloudServer from "@/assets/images/cloud server.png";
+import imgCaption from "@/assets/images/caption-generator.jpg";
+import imgResume from "@/assets/images/resume-builder.png";
+import imgCloudServer from "@/assets/images/cloud-server.png";
 import imgChatbot from "@/assets/images/chatboat.png";
 import productEcommerce from "@/assets/images/product-ecommerce.jpg";
 import productScada from "@/assets/images/product-scada.jpg";
