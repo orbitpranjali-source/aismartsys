@@ -1,26 +1,26 @@
 import { CheckCircle2, Target, Eye, Rocket, Server, Cpu, Cloud, Code, Sparkles, Activity, Layers } from "lucide-react";
 
 const AboutSection = () => {
-  const glassCardClass = "bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-3xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] hover:-translate-y-2 hover:border-primary/50 hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] transition-all duration-500 overflow-hidden";
-  const glassCardSecondaryClass = "bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-3xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] hover:-translate-y-2 hover:border-secondary/50 hover:shadow-[0_0_30px_rgba(139,92,246,0.3)] transition-all duration-500 overflow-hidden";
-  const glassCardAccentClass = "bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-3xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] hover:-translate-y-2 hover:border-accent/50 hover:shadow-[0_0_30px_rgba(6,182,212,0.3)] transition-all duration-500 overflow-hidden";
+  const glassCardClass = "bg-foreground/[0.03] backdrop-blur-xl border border-foreground/10 rounded-3xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] hover:-translate-y-2 hover:border-primary/50 hover:shadow-[0_0_30px_rgba(59,130,246,0.3)] transition-all duration-500 overflow-hidden";
+  const glassCardSecondaryClass = "bg-foreground/[0.03] backdrop-blur-xl border border-foreground/10 rounded-3xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] hover:-translate-y-2 hover:border-secondary/50 hover:shadow-[0_0_30px_rgba(139,92,246,0.3)] transition-all duration-500 overflow-hidden";
+  const glassCardAccentClass = "bg-foreground/[0.03] backdrop-blur-xl border border-foreground/10 rounded-3xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] hover:-translate-y-2 hover:border-accent/50 hover:shadow-[0_0_30px_rgba(6,182,212,0.3)] transition-all duration-500 overflow-hidden";
 
   return (
     <section className="py-24 relative overflow-hidden">
       {/* Hero Title */}
       <div className="container mx-auto px-4 text-center mb-16">
-        <h2 className="text-5xl md:text-7xl font-extrabold mb-6 text-white tracking-tight">
+        <h2 className="text-5xl md:text-7xl font-extrabold mb-6 text-foreground tracking-tight">
           About <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-accent">AI SmartSyS</span>
         </h2>
         <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto">
-          Building <span className="text-white font-medium">intelligent AI solutions</span> for modern businesses.
+          Building <span className="text-foreground font-medium">intelligent AI solutions</span> for modern businesses.
         </p>
       </div>
 
       {/* Company Introduction */}
       <div className="container mx-auto px-4 mb-16">
         <div className="max-w-4xl mx-auto text-center reveal-on-scroll">
-          <h3 className="text-4xl md:text-5xl font-extrabold mb-8 text-white tracking-tight">
+          <h3 className="text-4xl md:text-5xl font-extrabold mb-8 text-foreground tracking-tight">
             Who We <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">Are</span>
           </h3>
           <p className="text-xl md:text-2xl leading-relaxed text-muted-foreground font-light">
@@ -38,9 +38,9 @@ const AboutSection = () => {
             <div className="h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 border border-primary/20 shadow-[0_0_15px_rgba(59,130,246,0.2)]">
               <Target className="text-primary" size={28} />
             </div>
-            <h4 className="text-2xl font-bold mb-4 text-white">Our Mission</h4>
+            <h4 className="text-2xl font-bold mb-4 text-foreground">Our Mission</h4>
             <p className="text-muted-foreground leading-relaxed">
-              To empower businesses globally with innovative <span className="text-white/80">AI and automation technologies</span> that drive meaningful transformation.
+              To empower businesses globally with innovative <span className="text-foreground/80">AI and automation technologies</span> that drive meaningful transformation.
             </p>
           </div>
 
@@ -49,9 +49,9 @@ const AboutSection = () => {
             <div className="h-14 w-14 rounded-2xl bg-secondary/10 flex items-center justify-center mb-6 border border-secondary/20 shadow-[0_0_15px_rgba(139,92,246,0.2)]">
               <Eye className="text-secondary" size={28} />
             </div>
-            <h4 className="text-2xl font-bold mb-4 text-white">Our Vision</h4>
+            <h4 className="text-2xl font-bold mb-4 text-foreground">Our Vision</h4>
             <p className="text-muted-foreground leading-relaxed">
-              To become the premier leading provider of <span className="text-white/80">AI-driven digital transformation</span> solutions across diverse industries.
+              To become the premier leading provider of <span className="text-foreground/80">AI-driven digital transformation</span> solutions across diverse industries.
             </p>
           </div>
 
@@ -60,21 +60,21 @@ const AboutSection = () => {
             <div className="h-14 w-14 rounded-2xl bg-accent/10 flex items-center justify-center mb-6 border border-accent/20 shadow-[0_0_15px_rgba(6,182,212,0.2)]">
               <Sparkles className="text-accent" size={28} />
             </div>
-            <h4 className="text-2xl font-bold mb-4 text-white">Our Philosophy</h4>
+            <h4 className="text-2xl font-bold mb-4 text-foreground">Our Philosophy</h4>
             <p className="text-muted-foreground leading-relaxed">
-              We believe in creating intelligent, scalable systems that <span className="text-white/80">augment human capabilities</span> rather than replace them.
+              We believe in creating intelligent, scalable systems that <span className="text-foreground/80">augment human capabilities</span> rather than replace them.
             </p>
           </div>
         </div>
 
         {/* Stats Counter Section */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto mt-24 border-t border-white/10 pt-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto mt-24 border-t border-foreground/10 pt-16">
           <div className="flex flex-col items-center justify-center p-6 text-center reveal-on-scroll">
             <div className="relative mb-6">
               <div className="absolute inset-0 bg-primary/40 blur-2xl rounded-full" />
               <Layers className="relative text-primary" size={48} />
             </div>
-            <h4 className="text-5xl md:text-6xl font-black mb-3 tracking-tight text-white drop-shadow-[0_0_15px_rgba(59,130,246,0.3)]">150+</h4>
+            <h4 className="text-5xl md:text-6xl font-black mb-3 tracking-tight text-foreground drop-shadow-[0_0_15px_rgba(59,130,246,0.3)]">150+</h4>
             <p className="text-muted-foreground font-bold uppercase tracking-[0.2em] text-sm hidden md:block">Solutions Deployed</p>
             <p className="text-muted-foreground font-bold uppercase tracking-[0.1em] text-sm md:hidden">Deployed</p>
           </div>
@@ -83,7 +83,7 @@ const AboutSection = () => {
               <div className="absolute inset-0 bg-secondary/40 blur-2xl rounded-full" />
               <Activity className="relative text-secondary" size={48} />
             </div>
-            <h4 className="text-5xl md:text-6xl font-black mb-3 tracking-tight text-white drop-shadow-[0_0_15px_rgba(139,92,246,0.3)]">25+</h4>
+            <h4 className="text-5xl md:text-6xl font-black mb-3 tracking-tight text-foreground drop-shadow-[0_0_15px_rgba(139,92,246,0.3)]">25+</h4>
             <p className="text-muted-foreground font-bold uppercase tracking-[0.2em] text-sm hidden md:block">Industries Served</p>
             <p className="text-muted-foreground font-bold uppercase tracking-[0.1em] text-sm md:hidden">Industries</p>
           </div>
@@ -92,7 +92,7 @@ const AboutSection = () => {
               <div className="absolute inset-0 bg-accent/40 blur-2xl rounded-full" />
               <Target className="relative text-accent" size={48} />
             </div>
-            <h4 className="text-5xl md:text-6xl font-black mb-3 tracking-tight text-white drop-shadow-[0_0_15px_rgba(6,182,212,0.3)]">99.9%</h4>
+            <h4 className="text-5xl md:text-6xl font-black mb-3 tracking-tight text-foreground drop-shadow-[0_0_15px_rgba(6,182,212,0.3)]">99.9%</h4>
             <p className="text-muted-foreground font-bold uppercase tracking-[0.2em] text-sm hidden md:block">System Accuracy</p>
             <p className="text-muted-foreground font-bold uppercase tracking-[0.1em] text-sm md:hidden">Accuracy</p>
           </div>
@@ -101,7 +101,7 @@ const AboutSection = () => {
 
       {/* Services Overview */}
       <div className="container mx-auto px-4 mb-16 text-center">
-        <h3 className="text-3xl font-bold mb-12 reveal-on-scroll text-white">Our Expertise</h3>
+        <h3 className="text-3xl font-bold mb-12 reveal-on-scroll text-foreground">Our Expertise</h3>
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6 reveal-on-scroll max-w-6xl mx-auto">
           {[
             { title: "AI Development", icon: Cpu, color: "text-primary", borderHover: "hover:border-primary/50" },
@@ -110,11 +110,11 @@ const AboutSection = () => {
             { title: "Cloud & Server", icon: Cloud, color: "text-primary", borderHover: "hover:border-primary/50" },
             { title: "SCADA Solutions", icon: Server, color: "text-secondary", borderHover: "hover:border-secondary/50" },
           ].map((service, index) => (
-            <div key={index} className={`bg-white/[0.02] backdrop-blur-md border border-white/5 rounded-2xl p-6 flex flex-col items-center transition-all duration-300 hover:-translate-y-1 ${service.borderHover} group`}>
-              <div className="p-4 rounded-full bg-white/5 mb-4 group-hover:scale-110 transition-transform duration-300">
+            <div key={index} className={`bg-foreground/[0.02] backdrop-blur-md border border-foreground/5 rounded-2xl p-6 flex flex-col items-center transition-all duration-300 hover:-translate-y-1 ${service.borderHover} group`}>
+              <div className="p-4 rounded-full bg-foreground/5 mb-4 group-hover:scale-110 transition-transform duration-300">
                 <service.icon className={`${service.color}`} size={32} />
               </div>
-              <h4 className="font-semibold text-white text-sm md:text-base">{service.title}</h4>
+              <h4 className="font-semibold text-foreground text-sm md:text-base">{service.title}</h4>
             </div>
           ))}
         </div>
@@ -123,7 +123,7 @@ const AboutSection = () => {
       {/* Why Choose Us */}
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
-          <h3 className="text-3xl font-bold mb-12 text-center reveal-on-scroll text-white">Why Choose Us</h3>
+          <h3 className="text-3xl font-bold mb-12 text-center reveal-on-scroll text-foreground">Why Choose Us</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 reveal-on-scroll">
             {[
               "Experienced & Specialized Team",
@@ -131,9 +131,9 @@ const AboutSection = () => {
               "Reliable & Secure Solutions",
               "Customer Focused Approach"
             ].map((item, index) => (
-              <div key={index} className="flex items-center gap-4 p-5 rounded-2xl bg-white/[0.03] border border-white/10 backdrop-blur-sm hover:bg-white/[0.05] hover:-translate-y-1 hover:border-white/20 transition-all duration-300">
+              <div key={index} className="flex items-center gap-4 p-5 rounded-2xl bg-foreground/[0.03] border border-foreground/10 backdrop-blur-sm hover:bg-foreground/[0.05] hover:-translate-y-1 hover:border-foreground/20 transition-all duration-300">
                 <CheckCircle2 className="text-primary shrink-0 drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]" size={24} />
-                <span className="text-lg font-medium text-white/90">{item}</span>
+                <span className="text-lg font-medium text-foreground/90">{item}</span>
               </div>
             ))}
           </div>

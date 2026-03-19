@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Menu, X, Layout, LogOut, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import aiLogo from "@/assets/ai-logo.jpg";
+import aiLogo from "@/assets/smartsys-logo-transparent.png";
 import { useAuth } from "@/context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
 import AuthModal from "./AuthModal";
@@ -33,7 +33,7 @@ const Navbar = () => {
       const sections = navLinks
         .map((l) => l.href.includes("#") ? l.href.split("#")[1] : null)
         .filter(Boolean);
-        
+
       let current = "home";
       for (const id of sections) {
         if (!id) continue;
@@ -67,10 +67,7 @@ const Navbar = () => {
     >
       <div className="container mx-auto flex items-center justify-between h-20 px-4">
         <Link to="/" className="flex items-center gap-3 group">
-          <img src={aiLogo} alt="AI SmartSyS Logo" className="h-10 w-10 transition-transform duration-300 group-hover:scale-110 object-contain rounded-md" />
-          <span className="font-heading text-xl font-bold text-foreground">
-            AI <span className="text-gradient-primary">SmartSyS</span>
-          </span>
+          <img src={aiLogo} alt="AI SmartSyS Logo" className="h-14 w-auto max-w-[240px] transition-transform duration-300 group-hover:scale-105 object-contain rounded-md" />
         </Link>
 
         {/* Desktop nav */}

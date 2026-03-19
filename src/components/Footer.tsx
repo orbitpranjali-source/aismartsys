@@ -1,9 +1,9 @@
 import { Github, Linkedin, Twitter, Instagram } from "lucide-react";
-import aiLogo from "@/assets/ai-logo.jpg";
+import aiLogo from "@/assets/smartsys-logo-transparent.png";
 
 const quickLinks = [
   { name: "Home", href: "/#home" },
-  { name: "About", href: "/about" },
+  { name: "About", href: "/#about" },
   { name: "Services", href: "/#services" },
   { name: "Products", href: "/#products" },
   { name: "Portfolio", href: "/#portfolio" },
@@ -31,8 +31,7 @@ const Footer = () => (
         {/* Brand */}
         <div>
           <div className="flex items-center gap-3 mb-6">
-            <img src={aiLogo} alt="AI SmartSyS" className="h-12 w-12 object-contain rounded-md" />
-            <span className="font-heading text-2xl font-bold text-foreground tracking-tight">AI SmartSyS</span>
+            <img src={aiLogo} alt="AI SmartSyS" className="h-16 w-auto max-w-[280px] object-contain rounded-md" />
           </div>
           <p className="text-muted-foreground text-sm leading-relaxed mb-6">
             Empowering businesses with intelligent AI solutions for a smarter, more connected future. We bridge the gap between human intelligence and machine efficiency.
