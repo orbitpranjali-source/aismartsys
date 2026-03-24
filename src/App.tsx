@@ -21,7 +21,7 @@ const App = () => (
         <TooltipProvider>
           <Toaster />
           <Sonner />
-          <BrowserRouter basename="/aismartsys/">
+          <BrowserRouter basename={import.meta.env.PROD ? "/aismartsys/" : "/"}>
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/about" element={<About />} />
