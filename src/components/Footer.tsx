@@ -1,5 +1,5 @@
 import { Github, Linkedin, Twitter, Instagram } from "lucide-react";
-import aiLogo from "@/assets/smartsys-logo-transparent.png";
+import aiLogo from "@/assets/images/smartsys-logo.jpg";
 
 const quickLinks = [
   { name: "Home", href: "/#home" },
@@ -29,9 +29,19 @@ const Footer = () => (
     <div className="container mx-auto px-4 relative z-10">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
         {/* Brand */}
-        <div>
-          <div className="flex items-center gap-3 mb-6">
-            <img src={aiLogo} alt="AI SmartSyS" className="h-16 w-auto max-w-[280px] object-contain rounded-md" />
+        <div className="lg:col-span-2">
+          <div className="flex items-center gap-6 mb-8">
+            <div className="relative h-24 w-24 sm:h-32 sm:w-32 overflow-hidden rounded-[2.5rem] border-2 border-primary/20 shadow-2xl skew-y-0 hover:skew-y-2 transition-all duration-700">
+              <img src={aiLogo} alt="AI SmartSyS" className="h-full w-full object-cover scale-110" />
+            </div>
+            <div className="flex flex-col">
+              <span className="text-4xl sm:text-5xl font-black bg-clip-text text-transparent bg-gradient-to-r from-primary via-foreground to-primary/80 tracking-tighter">
+                AI SmartSyS
+              </span>
+              <span className="text-xs sm:text-sm font-bold text-primary tracking-[0.4em] uppercase opacity-80">
+                Future of Intelligence
+              </span>
+            </div>
           </div>
           <p className="text-muted-foreground text-sm leading-relaxed mb-6">
             Empowering businesses with intelligent AI solutions for a smarter, more connected future. We bridge the gap between human intelligence and machine efficiency.

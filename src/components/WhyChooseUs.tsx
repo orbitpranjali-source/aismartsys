@@ -30,18 +30,18 @@ const WhyChooseUs = () => {
           {reasons.map((r, i) => (
             <div
               key={r.title}
-              className={`group text-center p-8 premium-card transition-all duration-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+              className={`group text-center p-8 bg-gradient-nav-pill border border-white/10 rounded-3xl shadow-xl transition-all duration-500 hover:-translate-y-2 hover:shadow-primary/20 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 }`}
               style={getDelay(i)}
             >
-              <div className="w-16 h-16 mx-auto rounded-2xl bg-secondary/10 flex items-center justify-center text-secondary mb-6 group-hover:scale-110 group-hover:bg-gradient-primary group-hover:text-white transition-all duration-500 shadow-sm border border-secondary/10">
+              <div className="w-16 h-16 mx-auto rounded-2xl bg-white/20 flex items-center justify-center text-white mb-6 group-hover:scale-110 group-hover:bg-white group-hover:text-primary transition-all duration-500 shadow-lg border border-white/30">
                 <r.icon size={28} />
               </div>
-              <h3 className="font-heading font-semibold text-foreground mb-3">{r.title}</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">{r.desc}</p>
+              <h3 className="font-heading font-semibold text-white mb-3">{r.title}</h3>
+              <p className="text-white/80 text-sm leading-relaxed font-medium">{r.desc}</p>
 
               {/* Subtle accent line */}
-              <div className="mt-6 mx-auto w-8 h-1 bg-secondary/20 rounded-full group-hover:w-16 group-hover:bg-secondary transition-all duration-500" />
+              <div className="mt-6 mx-auto w-8 h-1 bg-white/20 rounded-full group-hover:w-16 group-hover:bg-white transition-all duration-500" />
             </div>
           ))}
         </div>

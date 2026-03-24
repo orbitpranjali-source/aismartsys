@@ -1,20 +1,20 @@
 import { useState, useEffect } from "react";
 import { Menu, X, Layout, LogOut, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import aiLogo from "@/assets/smartsys-logo-transparent.png";
+import aiLogo from "@/assets/images/smartsys-logo.jpg";
 import { useAuth } from "@/context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
 import AuthModal from "./AuthModal";
 import { useTheme } from "@/context/ThemeContext";
 
 const navLinks = [
-  { label: "Home", href: "/#home" },
-  { label: "About", href: "/#about" },
-  { label: "Services", href: "/#services" },
-  { label: "Products", href: "/#products" },
-  { label: "Portfolio", href: "/#portfolio" },
-  { label: "FAQ", href: "/#faq" },
-  { label: "Contact", href: "/#contact" },
+  { label: "Home", href: "#home" },
+  { label: "About", href: "#about" },
+  { label: "Services", href: "#services" },
+  { label: "Products", href: "#products" },
+  { label: "Portfolio", href: "#portfolio" },
+  { label: "FAQ", href: "#faq" },
+  { label: "Contact", href: "#contact" },
 ];
 
 const Navbar = () => {
@@ -61,13 +61,24 @@ const Navbar = () => {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled
-        ? "bg-background/80 backdrop-blur-xl border-b border-border shadow-lg shadow-background/20"
+        ? "bg-background/10 backdrop-blur-2xl border-b border-white/10 shadow-lg shadow-background/40"
         : "bg-transparent"
         }`}
     >
-      <div className="container mx-auto flex items-center justify-between h-20 px-4">
-        <Link to="/" className="flex items-center gap-3 group">
-          <img src={aiLogo} alt="AI SmartSyS Logo" className="h-14 w-auto max-w-[240px] transition-transform duration-300 group-hover:scale-105 object-contain rounded-md" />
+      <div className="container mx-auto flex items-center justify-between h-24 px-4 transition-all duration-300">
+        <Link to="/" className="flex items-center gap-4 group">
+          <div className="relative h-20 w-20 sm:h-24 sm:w-24 overflow-hidden rounded-3xl border-2 border-primary/30 shadow-2xl group-hover:scale-110 transition-all duration-600 ease-out">
+            <img src={aiLogo} alt="AI SmartSyS Logo" className="h-full w-full object-cover scale-110 group-hover:scale-125 transition-transform duration-1000" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
+          </div>
+          <div className="flex flex-col justify-center">
+            <span className="text-3xl sm:text-4xl font-black bg-clip-text text-transparent bg-gradient-to-r from-primary via-foreground to-primary/90 tracking-tighter leading-none">
+              AI SmartSyS
+            </span>
+            <span className="text-[10px] sm:text-[12px] font-bold text-primary/70 tracking-[0.3em] uppercase mt-1 hidden xs:block">
+              Intelligent Solutions
+            </span>
+          </div>
         </Link>
 
         {/* Desktop nav */}

@@ -6,6 +6,7 @@ import heroNeural from "@/assets/images/hero-neural.png";
 import heroBrain from "@/assets/images/hero-brain.png";
 import heroData from "@/assets/images/hero-data.png";
 import heroAutomation from "@/assets/images/hero-automation.png";
+import modernAiBg from "@/assets/images/modern-ai-bg.png";
 import { useAuth } from "@/context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import AuthModal from "./AuthModal";
@@ -17,7 +18,10 @@ const HeroSection = () => {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   const slides = [
-    // ... (stays same)
+    {
+      image: modernAiBg,
+      title: "Advanced AI Smart Systems"
+    },
     {
       image: heroNeural,
       title: "AI Neural Network"
@@ -89,11 +93,9 @@ const HeroSection = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-transparent to-background" />
       </div>
 
-      {/* Subtle grid */}
-      <div className="absolute inset-0 opacity-[0.03] z-[1]" style={{
-        backgroundImage: `linear-gradient(hsl(var(--foreground)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)`,
-        backgroundSize: '60px 60px',
-      }} />
+      {/* Premium subtle glow instead of grid */}
+      <div className="absolute inset-0 z-[1] pointer-events-none opacity-[0.2]"
+        style={{ background: 'radial-gradient(circle at 50% 50%, rgba(30, 64, 175, 0.1), transparent 70%)' }} />
 
       {/* Glowing orbs */}
       <GlowOrb className="w-[700px] h-[700px] top-1/4 -left-60 animate-float z-[1]" color="primary" />
@@ -120,9 +122,11 @@ const HeroSection = () => {
               AI SmartSyS provides cutting-edge AI tools, intelligent automation, and smart digital solutions to transform your business.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button variant="hero" size="lg" onClick={handleGetStarted} className="text-base px-8 py-6 rounded-xl group">
+              <Button variant="hero" size="lg" onClick={handleGetStarted} className="text-base px-8 py-6 rounded-xl group flex items-center gap-3">
                 Get Started
-                <ArrowRight size={18} className="ml-1 transition-transform duration-300 group-hover:translate-x-1" />
+                <span className="arrow-gradient">
+                  <ArrowRight size={18} className="transition-transform duration-300 group-hover:translate-x-1" />
+                </span>
               </Button>
               <Button variant="hero-outline" size="lg" onClick={scrollToContact} className="text-base px-8 py-6 rounded-xl">
                 Contact Us
