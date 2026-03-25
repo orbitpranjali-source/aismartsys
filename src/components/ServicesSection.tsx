@@ -120,9 +120,9 @@ const ServicesSection = () => {
                 <img
                   src={s.image}
                   alt={s.title}
-                  className="w-full h-full object-cover object-center opacity-40 group-hover:opacity-60 transition-opacity"
+                  className="w-full h-full object-cover object-center opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
                 />
-                <div className="absolute inset-0 flex items-center justify-center">
+                <div className="absolute inset-0 flex items-center justify-center bg-background/10 group-hover:bg-transparent transition-colors duration-500">
                   <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 group-hover:bg-gradient-button group-hover:text-secondary-foreground transition-all duration-500">
                     <s.icon size={24} />
                   </div>
