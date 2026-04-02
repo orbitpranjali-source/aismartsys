@@ -9,13 +9,13 @@ import heroAutomation from "@/assets/images/hero-automation.png";
 import modernAiBg from "@/assets/images/modern-ai-bg.png";
 import { useAuth } from "@/context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import AuthModal from "./AuthModal";
+import InquiryModal from "./InquiryModal";
 
 const HeroSection = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isInquiryModalOpen, setIsInquiryModalOpen] = useState(false);
 
   const slides = [
     {
@@ -48,11 +48,7 @@ const HeroSection = () => {
   }, []);
 
   const handleGetStarted = () => {
-    if (isAuthenticated) {
-      navigate("/dashboard");
-    } else {
-      setIsAuthModalOpen(true);
-    }
+    setIsInquiryModalOpen(true);
   };
 
   const scrollToContact = () => {
@@ -158,10 +154,11 @@ const HeroSection = () => {
         </div>
       </div>
 
-      <AuthModal
-        isOpen={isAuthModalOpen}
-        onClose={() => setIsAuthModalOpen(false)}
-        onSuccess={() => navigate("/dashboard")}
+      <InquiryModal
+        isOpen={isInquiryModalOpen}
+        onClose={() => setIsInquiryModalOpen(false)}
+        title="Get Started"
+        description="Let's discuss how AI SmartSyS can transform your business. Fill out the form below to get started."
       />
 
       {/* Scroll indicator */}
@@ -173,5 +170,6 @@ const HeroSection = () => {
     </section>
   );
 };
+
 
 export default HeroSection;

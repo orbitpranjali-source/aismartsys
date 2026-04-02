@@ -10,6 +10,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
+import InquiryModal from "./InquiryModal";
 
 import inventoryImg from "@/assets/images/inventory.png";
 import expenseImg from "@/assets/images/expense_flow.png";
@@ -117,6 +118,7 @@ const projects: Project[] = [
 const PortfolioSection = () => {
   const { ref, isVisible, getDelay } = useStaggerReveal(projects.length, 120);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [isInquiryModalOpen, setIsInquiryModalOpen] = useState(false);
 
   return (
     <section id="portfolio" className="relative section-padding overflow-hidden">
@@ -251,8 +253,11 @@ const PortfolioSection = () => {
                   </div>
                   
                   <div className="pt-4">
-                    <Button className="w-full bg-gradient-button text-white hover:opacity-90 transition-opacity">
-                      Contact for Demo
+                    <Button 
+                      onClick={() => setIsInquiryModalOpen(true)}
+                      className="w-full bg-gradient-button text-white hover:opacity-90 transition-opacity"
+                    >
+                      Contact for Demo / Discussion
                     </Button>
                   </div>
                 </div>
@@ -261,6 +266,14 @@ const PortfolioSection = () => {
           )}
         </DialogContent>
       </Dialog>
+
+      <InquiryModal 
+        isOpen={isInquiryModalOpen}
+        onClose={() => setIsInquiryModalOpen(false)}
+        title="Project Discussion"
+        description={selectedProject ? `Interested in ${selectedProject.title}? Let's discuss how we can implement a similar solution for you.` : "Let's discuss your project requirements."}
+        defaultService="Customised Software Development"
+      />
     </section>
   );
 };

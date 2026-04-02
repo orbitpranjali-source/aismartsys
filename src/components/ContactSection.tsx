@@ -9,13 +9,35 @@ import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { toast } from "sonner";
 
 const ContactSection = () => {
-  const [form, setForm] = useState({ name: "", email: "", phone: "", message: "" });
+  const [form, setForm] = useState({ name: "", email: "", phone: "", service: "", message: "" });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { ref, isVisible } = useScrollReveal();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast.success("Message sent! We'll get back to you shortly.");
-    setForm({ name: "", email: "", phone: "", message: "" });
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch("https://formspree.io/f/mjgpegby", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify(form),
+      });
+
+      if (response.ok) {
+        toast.success("Thank you! Your request has been submitted successfully.");
+        setForm({ name: "", email: "", phone: "", service: "", message: "" });
+      } else {
+        toast.error("Oops! Something went wrong. Please try again.");
+      }
+    } catch (error) {
+      toast.error("Failed to submit the form. Please check your connection.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -56,6 +78,14 @@ const ContactSection = () => {
               placeholder="Phone Number"
               value={form.phone}
               onChange={(e) => setForm({ ...form, phone: e.target.value })}
+              required
+              className="bg-muted/30 border-border/50 h-12 text-foreground placeholder:text-muted-foreground rounded-xl focus:border-primary/40 transition-colors"
+            />
+            <Input
+              placeholder="Service / Requirement"
+              value={form.service}
+              onChange={(e) => setForm({ ...form, service: e.target.value })}
+              required
               className="bg-muted/30 border-border/50 h-12 text-foreground placeholder:text-muted-foreground rounded-xl focus:border-primary/40 transition-colors"
             />
             <Textarea
@@ -66,8 +96,17 @@ const ContactSection = () => {
               rows={5}
               className="bg-muted/30 border-border/50 resize-none text-foreground placeholder:text-muted-foreground rounded-xl focus:border-primary/40 transition-colors"
             />
-            <Button type="submit" className="w-full rounded-xl" size="lg">
-              <Send size={16} className="mr-2" /> Send Message
+            <Button type="submit" disabled={isSubmitting} className="w-full rounded-xl disabled:opacity-50" size="lg">
+              {isSubmitting ? (
+                <>
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent mr-2" />
+                  Sending...
+                </>
+              ) : (
+                <>
+                  <Send size={16} className="mr-2" /> Send Message
+                </>
+              )}
             </Button>
           </form>
 
@@ -115,5 +154,6 @@ const ContactSection = () => {
     </section>
   );
 };
+
 
 export default ContactSection;

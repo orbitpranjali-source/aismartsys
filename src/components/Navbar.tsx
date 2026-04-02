@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import aiLogo from "@/assets/images/smartsys-logo.jpg";
 import { useAuth } from "@/context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
-import AuthModal from "./AuthModal";
+import InquiryModal from "./InquiryModal";
 import { useTheme } from "@/context/ThemeContext";
 
 const navLinks = [
@@ -23,7 +23,7 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isInquiryModalOpen, setIsInquiryModalOpen] = useState(false);
   const { theme, setTheme } = useTheme();
 
   useEffect(() => {
@@ -48,14 +48,10 @@ const Navbar = () => {
     handleScroll(); // Initial check
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [window.location.pathname]);
+  }, []);
 
   const handleAuthAction = () => {
-    if (isAuthenticated) {
-      navigate("/dashboard");
-    } else {
-      setIsAuthModalOpen(true);
-    }
+    setIsInquiryModalOpen(true);
   };
 
   return (
@@ -165,10 +161,11 @@ const Navbar = () => {
         </div>
       )}
 
-      <AuthModal
-        isOpen={isAuthModalOpen}
-        onClose={() => setIsAuthModalOpen(false)}
-        onSuccess={() => navigate("/dashboard")}
+      <InquiryModal
+        isOpen={isInquiryModalOpen}
+        onClose={() => setIsInquiryModalOpen(false)}
+        title="Get Started"
+        description="Fill out the form below to start your AI journey with us."
       />
     </nav>
   );

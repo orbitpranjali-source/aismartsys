@@ -1,10 +1,10 @@
-import { Type, FileText, Bot, ShoppingCart, Cpu, Server } from "lucide-react";
+import { Type, FileText, Bot, ShoppingCart, Cpu, Server, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SectionHeader from "./SectionHeader";
 import { GlowOrb } from "./TechPattern";
 import { useStaggerReveal } from "@/hooks/useScrollReveal";
-import { ArrowRight } from "lucide-react";
-
+import { useState } from "react";
+import InquiryModal from "./InquiryModal";
 import imgCaption from "@/assets/images/caption-generator.jpg";
 import imgResume from "@/assets/images/resume-builder.png";
 import imgCloudServer from "@/assets/images/cloud-server.png";
@@ -12,10 +12,6 @@ import imgChatbot from "@/assets/images/chatboat.png";
 import productEcommerce from "@/assets/images/product-ecommerce.jpg";
 import productScada from "@/assets/images/product-scada.jpg";
 
-import { useState } from "react";
-import { useAuth } from "@/context/AuthContext";
-import { useNavigate } from "react-router-dom";
-import AuthModal from "./AuthModal";
 
 const products = [
   {
@@ -70,18 +66,12 @@ const products = [
 
 const ProductsSection = () => {
   const { ref, isVisible, getDelay } = useStaggerReveal(products.length, 100);
-  const { isAuthenticated } = useAuth();
-  const navigate = useNavigate();
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [selectedToolId, setSelectedToolId] = useState<string | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<string | null>(null);
+  const [isInquiryModalOpen, setIsInquiryModalOpen] = useState(false);
 
-  const handleExplore = (toolId: string) => {
-    if (isAuthenticated) {
-      navigate(`/dashboard?tool=${toolId}`);
-    } else {
-      setSelectedToolId(toolId);
-      setIsAuthModalOpen(true);
-    }
+  const handleExplore = (productTitle: string) => {
+    setSelectedProduct(productTitle);
+    setIsInquiryModalOpen(true);
   };
 
   return (
@@ -126,7 +116,7 @@ const ProductsSection = () => {
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() => handleExplore(p.id)}
+                  onClick={() => handleExplore(p.title)}
                   className="rounded-full text-primary hover:text-accent h-8 px-4 text-xs group/btn"
                 >
                   Explore <ArrowRight size={12} className="ml-1 transition-transform group-hover/btn:translate-x-1" />
@@ -137,10 +127,12 @@ const ProductsSection = () => {
         </div>
       </div>
 
-      <AuthModal
-        isOpen={isAuthModalOpen}
-        onClose={() => setIsAuthModalOpen(false)}
-        onSuccess={() => navigate(`/dashboard?tool=${selectedToolId}`)}
+      <InquiryModal
+        isOpen={isInquiryModalOpen}
+        onClose={() => setIsInquiryModalOpen(false)}
+        defaultService={selectedProduct || "Other"}
+        title={selectedProduct ? `Explore ${selectedProduct}` : "Tool Inquiry"}
+        description={selectedProduct ? `Provide your details to get early access or discuss ${selectedProduct.toLowerCase()} solutions.` : "Fill out the form below to inquire about our tools."}
       />
     </section>
   );

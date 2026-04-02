@@ -12,9 +12,7 @@ import SectionHeader from "./SectionHeader";
 import { GlowOrb } from "./TechPattern";
 import { useStaggerReveal } from "@/hooks/useScrollReveal";
 import { useState } from "react";
-import { useAuth } from "@/context/AuthContext";
-import { useNavigate } from "react-router-dom";
-import AuthModal from "./AuthModal";
+import InquiryModal from "./InquiryModal";
 
 const services = [
   {
@@ -77,16 +75,12 @@ const services = [
 
 const ServicesSection = () => {
   const { ref, isVisible, getDelay } = useStaggerReveal(services.length, 80);
-  const { isAuthenticated } = useAuth();
-  const navigate = useNavigate();
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [selectedService, setSelectedService] = useState<string | null>(null);
+  const [isInquiryModalOpen, setIsInquiryModalOpen] = useState(false);
 
-  const handleServiceClick = () => {
-    if (isAuthenticated) {
-      navigate("/dashboard");
-    } else {
-      setIsAuthModalOpen(true);
-    }
+  const handleServiceClick = (serviceTitle: string) => {
+    setSelectedService(serviceTitle);
+    setIsInquiryModalOpen(true);
   };
 
   return (
@@ -111,7 +105,7 @@ const ServicesSection = () => {
             <div
               key={s.title}
               id={s.ref}
-              onClick={handleServiceClick}
+              onClick={() => handleServiceClick(s.title)}
               className={`group premium-card cursor-pointer transition-all duration-500 overflow-hidden ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 }`}
               style={getDelay(i)}
@@ -132,7 +126,7 @@ const ServicesSection = () => {
                 <h3 className="font-heading font-semibold text-foreground mb-3">{s.title}</h3>
                 <p className="text-muted-foreground text-xs mb-6 leading-relaxed line-clamp-2">{s.desc}</p>
                 <div className="flex justify-center items-center text-primary text-xs font-bold uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">
-                  Learn More <Zap size={12} className="ml-1" />
+                  Inquiry Now <Zap size={12} className="ml-1" />
                 </div>
               </div>
             </div>
@@ -140,10 +134,12 @@ const ServicesSection = () => {
         </div>
       </div>
 
-      <AuthModal
-        isOpen={isAuthModalOpen}
-        onClose={() => setIsAuthModalOpen(false)}
-        onSuccess={() => navigate("/dashboard")}
+      <InquiryModal
+        isOpen={isInquiryModalOpen}
+        onClose={() => setIsInquiryModalOpen(false)}
+        defaultService={selectedService || undefined}
+        title={selectedService ? `Inquiry for ${selectedService}` : "Service Inquiry"}
+        description={selectedService ? `Please provide your details below to discuss your ${selectedService.toLowerCase()} requirements.` : "Fill out the form below to inquire about our services."}
       />
     </section>
   );
